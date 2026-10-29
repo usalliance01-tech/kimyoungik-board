@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>김영익 교수님 데이터 보드</title>
+<meta name="description" content="김영익 교수님이 판단 근거로 쓰는 경기·밸류에이션·환율·금리 지표와 발언을 한 화면에 모은 보드">
+<link rel="preload" href="fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
+<script src="js/d3.min.js"></script>
+<style>
+:root{--color-fg:#1b1b19;--color-fg-muted:#6b6962;--color-bg:#f7f6f2;--color-panel:#ffffff;--color-border-line:#e5e2da;--color-ok:#2f7d4f;--color-warn:#a86a12;--color-bad:#c0392b;
+--cds-chart-grid:#ebe8e1;--cds-chart-axis:#cdc8bd;--cds-chart-reference:#8a867c;--cds-chart-muted:#b8b4aa;--cds-chart-status-critical:#d0533f;
+--cds-surface-popover:#ffffff;--cds-border:#dedad1;--cds-shadow-popover:0 6px 20px rgba(0,0,0,.08);--cds-text-secondary:#6b6962;
+--cds-radius:10px;--cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:14px;--cds-gap-lg:20px;--cds-gap-xl:32px;--cds-pad-xs:4px;--cds-pad-sm:8px;--cds-pad-md:14px;--cds-pad-lg:20px;--cds-pad-xl:28px;
+--cds-font-weight-medium:600;--cds-dur-slow:.3s;--cds-ease-out:cubic-bezier(.2,.7,.2,1);--font-anthropic-sans:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color-scheme:light dark}
+@media (prefers-color-scheme: dark){:root{--color-fg:#ecebe6;--color-fg-muted:#a3a19a;--color-bg:#1a1a18;--color-panel:#232321;--color-border-line:#363632;--cds-chart-grid:#33332f;--cds-chart-axis:#4a4a45;--cds-chart-reference:#9b978d;--cds-chart-muted:#5f5d57;--cds-chart-status-critical:#e8705b;--cds-surface-popover:#2b2b28;--cds-border:#3d3d38;--cds-shadow-popover:0 6px 20px rgba(0,0,0,.4);--cds-text-secondary:#a3a19a}}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
+#dash-root{max-width:1120px;margin:0 auto;padding:28px 20px 60px}
+@media (max-width:600px){#dash-root{padding:18px 16px 48px}}
+.kd-updated{font-size:.8rem;color:var(--color-fg-muted);margin-top:8px}
+</style>
+<script>
+/* 대시보드 런타임 대체: data/*.json 을 읽어 그리기 함수에 넘깁니다. */
+(function(){
+  const store = {}; const draws = {}; const ids = ['latest','voices','catalog'];
+  ids.forEach(id => store[id] = {status:'loading', data:[]});
+  const run = (name) => { const fn = draws[name]; if (!fn) return; document.querySelectorAll('[data-draw="'+name+'"]').forEach(el => { try { fn(el); } catch(e){ console.error(name, e); } }); };
+  window.dash = {
+    data: (id) => store[id] || {status:'missing', data:[]},
+    draw: (name, fn) => { if (fn) draws[name] = fn; run(name); },
+    colors: ['#2f6fdb','#d0533f','#2f9e6f','#c48a1a','#7a5cc7','#1b98a8','#b8487a','#6b7a89'],
+    onData: (fn) => fn(),
+    _runAll: () => Object.keys(draws).forEach(run)
+  };
+  window.__kdLoad = Promise.all(ids.map(id => fetch('data/'+id+'.json?v='+Date.now()).then(r => r.json()).then(d => { store[id] = {status:'ok', data:d}; }).catch(() => { store[id] = {status:'error', data:[]}; })));
+})();
+</script>
+</head>
+<body>
+<div id="dash-root">
+<style>
+@font-face { font-family: "KD Pretendard"; src: url("fonts/PretendardVariable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+#dash-root .kd { --kd-font: "KD Pretendard", "Pretendard Variable", Pretendard, var(--font-anthropic-sans), sans-serif; --cds-font-size-caption: 0.875rem; --cds-font-size-body: 1.03rem; --cds-font-size-heading: 1.3rem; --cds-font-size-title: 2rem; letter-spacing: -0.01em; word-break: keep-all; }
+#dash-root .kd svg text { font-family: var(--kd-font); }
+#dash-root .kd { font-family: var(--kd-font); color: var(--color-fg); display: flex; flex-direction: column; gap: var(--cds-gap-xl); }
+#dash-root .kd-head h1 { font-family: var(--kd-font); font-weight: 700; letter-spacing: -0.03em; font-size: var(--cds-font-size-title); margin: 0 0 var(--cds-gap-xs); }
+#dash-root .kd-head p { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-body); line-height: 1.6; }
+#dash-root .kd-signal { margin-top: var(--cds-gap-md); padding: var(--cds-pad-md) var(--cds-pad-lg); border: 1px solid var(--color-border-line); border-left: 3px solid var(--kd-view); border-radius: var(--cds-radius); background: var(--color-panel); font-size: var(--cds-font-size-body); line-height: 1.6; }
+#dash-root .kd-signal b { font-weight: 600; }
+#dash-root .kd-nav { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); position: sticky; top: 0; z-index: 2; background: var(--color-bg); padding: var(--cds-pad-xs) 0; }
+#dash-root .kd-nav a { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); text-decoration: none; padding: var(--cds-pad-xs) var(--cds-pad-sm); border: 1px solid var(--color-border-line); border-radius: 999px; }
+#dash-root .kd-nav a:hover { color: var(--color-fg); }
+#dash-root .kd-sec { display: flex; flex-direction: column; gap: var(--cds-gap-md); scroll-margin-top: 3rem; }
+#dash-root .kd-sec > h2 { font-size: var(--cds-font-size-heading); font-weight: 700; letter-spacing: -0.02em; margin: 0; }
+#dash-root .kd-sec > .kd-lead { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+#dash-root .kd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: var(--cds-gap-md); }
+#dash-root .kd-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: var(--cds-gap-md); }
+#dash-root .kd-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: flex; flex-direction: column; gap: var(--cds-gap-xs); min-width: 0; }
+#dash-root .kd-card h3 { margin: 0; font-size: var(--cds-font-size-body); font-weight: 600; }
+#dash-root .kd-card .kd-note { margin: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.5; }
+#dash-root .kd-mean { margin: var(--cds-gap-xs) 0 0; padding-top: var(--cds-pad-sm); border-top: 1px solid var(--color-border-line); font-size: var(--cds-font-size-caption); line-height: 1.5; color: var(--color-fg); }
+#dash-root .kd-mkt { margin-top: var(--cds-gap-md); background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: flex; flex-direction: column; gap: var(--cds-gap-md); }
+#dash-root .kd-mkt-head { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); display: flex; gap: var(--cds-gap-sm); align-items: baseline; flex-wrap: wrap; }
+#dash-root .kd-mkt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: var(--cds-gap-md); }
+#dash-root .kd-mkt-item { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+#dash-root .kd-mkt-item:first-child .kd-mkt-val { font-size: calc(var(--cds-font-size-title) * 1.25); }
+#dash-root .kd-mkt-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+#dash-root .kd-mkt-val { font-family: var(--kd-font); font-weight: 650; letter-spacing: -0.02em; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; line-height: 1.2; }
+#dash-root .kd-mkt-note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.4; }
+#dash-root .kd-cat { display: flex; flex-direction: column; max-height: 40rem; overflow: auto; }
+#dash-root .kd-cat-item { border-bottom: 1px solid var(--color-border-line); }
+#dash-root .kd-cat-sum { cursor: pointer; padding: var(--cds-pad-sm) 0; display: grid; grid-template-columns: auto 1fr; gap: 2px var(--cds-gap-sm); align-items: baseline; list-style: none; }
+#dash-root .kd-cat-sum::-webkit-details-marker { display: none; }
+#dash-root .kd-cat-sum::after { content: "+"; grid-column: 2; grid-row: 1; justify-self: end; color: var(--color-fg-muted); }
+#dash-root .kd-cat-item[open] .kd-cat-sum::after { content: "−"; }
+#dash-root .kd-cat-tag { grid-row: 1 / span 2; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); border: 1px solid var(--color-border-line); border-radius: 999px; padding: 0 var(--cds-pad-sm); white-space: nowrap; }
+#dash-root .kd-cat-name { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); grid-column: 2; grid-row: 1; padding-right: 1.5rem; }
+#dash-root .kd-cat-use { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); grid-column: 2; }
+#dash-root .kd-cat-body { padding: 0 0 var(--cds-pad-md); display: flex; flex-direction: column; gap: var(--cds-gap-xs); }
+#dash-root .kd-cat-k { font-size: var(--cds-font-size-caption); font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); margin-top: var(--cds-gap-xs); }
+#dash-root .kd-cat-v { margin: 0; font-size: var(--cds-font-size-body); line-height: 1.65; }
+#dash-root .kd-cat-meta { margin-top: var(--cds-gap-xs); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+#dash-root .kd-cat-facts { grid-column: 2; display: flex; flex-wrap: wrap; gap: 2px var(--cds-gap-sm); margin-top: 2px; }
+#dash-root .kd-cat-fact { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); background: var(--color-bg); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: 0 var(--cds-pad-xs); }
+#dash-root .kd-cat-fact b { font-weight: var(--cds-font-weight-medium); color: var(--color-fg); }
+#dash-root .kd-cat-brief { grid-column: 2; font-size: var(--cds-font-size-body); line-height: 1.5; color: var(--color-fg); }
+#dash-root .kd-big { font-family: var(--kd-font); font-weight: 650; letter-spacing: -0.02em; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; line-height: 1.2; }
+#dash-root .kd-meta { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+#dash-root .kd-chart { position: relative; min-height: 9rem; width: 100%; }
+#dash-root .kd-chart.kd-tall { min-height: 11rem; }
+#dash-root .kd-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; }
+#dash-root .kd-tip .kd-tip-k { color: var(--cds-text-secondary); }
+#dash-root .kd-voices { display: flex; flex-direction: column; gap: var(--cds-gap-md); }
+#dash-root .kd-voice { border-left: 2px solid var(--color-border-line); padding: var(--cds-pad-xs) 0 var(--cds-pad-xs) var(--cds-pad-md); display: flex; flex-direction: column; gap: var(--cds-gap-xs); }
+#dash-root .kd-voice .kd-vdate { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+#dash-root .kd-voice .kd-vtitle { font-weight: var(--cds-font-weight-medium); font-size: var(--cds-font-size-body); }
+#dash-root .kd-voice .kd-vsum { font-size: var(--cds-font-size-body); line-height: 1.6; margin: 0; }
+#dash-root .kd-voice a { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+#dash-root .kd-tools { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: center; }
+#dash-root .kd-tools input { flex: 1 1 12rem; min-width: 0; font: inherit; font-size: var(--cds-font-size-caption); padding: var(--cds-pad-xs) var(--cds-pad-sm); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); color: var(--color-fg); }
+#dash-root .kd-chip { font: inherit; font-size: var(--cds-font-size-caption); padding: var(--cds-pad-xs) var(--cds-pad-sm); border: 1px solid var(--color-border-line); border-radius: 999px; background: transparent; color: var(--color-fg-muted); cursor: pointer; }
+#dash-root .kd-chip[aria-pressed="true"] { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
+#dash-root .kd-tablebox { max-height: 32rem; overflow: auto; }
+#dash-root .kd-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-caption); }
+#dash-root .kd-table th { position: sticky; top: 0; background: var(--color-panel); text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); }
+#dash-root .kd-table td { padding: var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); vertical-align: top; line-height: 1.5; }
+#dash-root .kd-table td:first-child { font-weight: var(--cds-font-weight-medium); }
+#dash-root .kd-foot { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.6; margin: 0; }
+@media (max-width: 40rem) { #dash-root .kd-hide-sm { display: none; } }
+/* 섹션 구분 (무채색) + 교수님 뷰 색 */
+#dash-root .kd { --kd-view: #9a6700; }
+@media (prefers-color-scheme: dark) { #dash-root .kd { --kd-view: #f5c84b; } }
+:root[data-theme="dark"] #dash-root .kd { --kd-view: #f5c84b; }
+:root[data-theme="light"] #dash-root .kd { --kd-view: #9a6700; }
+#dash-root .kd-sec > h2 { display: flex; align-items: center; gap: var(--cds-gap-sm); }
+#dash-root .kd-num { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 2rem; padding: 0 6px; border-radius: 999px; border: 1px solid var(--color-border-line); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); font-weight: 700; letter-spacing: 0; }
+#dash-root .kd-sec + .kd-sec { padding-top: var(--cds-gap-lg); border-top: 1px solid var(--color-border-line); }
+#dash-root .kd-view, #dash-root .kd .kd-view { color: var(--kd-view) !important; }
+#dash-root .kd-signal { color: var(--kd-view); }
+#dash-root .kd-signal b { color: var(--kd-view); }
+#dash-root .kd-voice .kd-vsum { color: var(--kd-view); }
+#dash-root .kd-cat-use { color: var(--kd-view); }
+#dash-root .kd-legend { display: inline-flex; align-items: center; gap: 6px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-top: var(--cds-gap-sm); }
+#dash-root .kd-legend i { width: 10px; height: 10px; border-radius: 3px; background: var(--kd-view); display: inline-block; }
+#dash-root .kd-nav { overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; }
+#dash-root .kd-nav::-webkit-scrollbar { display: none; }
+#dash-root .kd-nav a { white-space: nowrap; background: var(--color-panel); }
+#dash-root .kd-chart.kd-tall { min-height: 9rem; }
+
+/* 모바일 */
+@media (max-width: 640px) {
+  #dash-root .kd { gap: var(--cds-gap-lg); --cds-font-size-title: 1.6rem; }
+  #dash-root .kd-head h1 { font-size: 1.65rem; }
+  #dash-root .kd-card { padding: var(--cds-pad-md); }
+  #dash-root .kd-mkt { padding: var(--cds-pad-md); }
+  #dash-root .kd-mkt-grid { grid-template-columns: 1fr 1fr; gap: var(--cds-gap-md) var(--cds-gap-sm); }
+  #dash-root .kd-mkt-item:first-child { grid-column: 1 / -1; padding-bottom: var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); }
+  #dash-root .kd-mkt-item:first-child .kd-mkt-val { font-size: 2.3rem; }
+  #dash-root .kd-mkt-val { font-size: 1.35rem; }
+  #dash-root .kd-mkt-note { font-size: 0.8rem; }
+  #dash-root .kd-tiles { gap: var(--cds-gap-sm); }
+  #dash-root .kd-tiles .kd-card { display: grid; grid-template-columns: 1fr auto; column-gap: var(--cds-gap-md); row-gap: 2px; align-items: baseline; }
+  #dash-root .kd-tiles .kd-card h3 { grid-column: 1; grid-row: 1; }
+  #dash-root .kd-tiles .kd-card .kd-big { grid-column: 2; grid-row: 1 / span 2; text-align: right; font-size: 1.5rem; align-self: center; }
+  #dash-root .kd-tiles .kd-card .kd-meta { grid-column: 1; grid-row: 2; }
+  #dash-root .kd-tiles .kd-card .kd-note, #dash-root .kd-tiles .kd-card .kd-mean { grid-column: 1 / -1; }
+  #dash-root .kd-tiles .kd-card .kd-note { margin-top: var(--cds-gap-xs); }
+  #dash-root .kd-grid { gap: var(--cds-gap-sm); }
+  #dash-root .kd-signal { padding: var(--cds-pad-sm) var(--cds-pad-md); }
+}
+/* 섹션 헤더 막대 */
+#dash-root .kd { --kd-bar: #22211e; --kd-bar-fg: #ffffff; }
+@media (prefers-color-scheme: dark) { #dash-root .kd { --kd-bar: #3a3935; --kd-bar-fg: #ffffff; } }
+:root[data-theme="dark"] #dash-root .kd { --kd-bar: #3a3935; }
+:root[data-theme="light"] #dash-root .kd { --kd-bar: #22211e; }
+#dash-root .kd-sec > h2 { background: var(--kd-bar); color: var(--kd-bar-fg); padding: var(--cds-pad-sm) var(--cds-pad-md); border-radius: var(--cds-radius); }
+#dash-root .kd-sec > h2 .kd-num { border-color: rgba(255,255,255,.35); color: rgba(255,255,255,.85); }
+#dash-root .kd-sec + .kd-sec { border-top: 0; padding-top: var(--cds-gap-md); }
+#dash-root .kd-mkt-item + .kd-mkt-item { }
+@media (max-width: 640px) {
+  #dash-root .kd-sec { gap: var(--cds-gap-sm); }
+  #dash-root .kd-sec > h2 { font-size: 1.15rem; }
+  #dash-root .kd-mkt-item:not(:first-child) { background: var(--color-bg); border-radius: var(--cds-radius); padding: var(--cds-pad-sm); }
+}
+[data-dash-source-state=empty] { color: transparent; }
+[data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+</style>
+
+<div class="kd">
+  <header class="kd-head" id="top">
+    <h1>김영익 교수님 데이터 보드</h1>
+    <p>교수님이 영상·인터뷰에서 판단 근거로 쓰는 지표를 한곳에 모은 제작팀용 보드입니다. 수치는 공개 발언과 언론 보도에서 확인한 최신값이며, 각 수치 아래에 기준일을 표시했습니다.</p>
+    <div class="kd-legend"><i></i>노란 글씨는 교수님의 해석과 전망입니다</div>
+    <section class="kd-mkt" aria-label="오늘의 시장">
+      <div class="kd-mkt-head">오늘의 시장 <span class="kd-meta">평일 16:23 자동 갱신</span></div>
+      <div class="kd-mkt-grid">
+      <div class="kd-mkt-item">
+        <div class="kd-mkt-label">코스피</div>
+        <div class="kd-mkt-val" data-draw="v" data-source="latest" data-field="display" data-where="id=kospi" data-fetchpriority="high">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=kospi">—</div>
+        <div class="kd-mkt-note" data-draw="v" data-source="latest" data-field="note" data-where="id=kospi">—</div>
+      </div>
+      <div class="kd-mkt-item">
+        <div class="kd-mkt-label">원·달러 환율</div>
+        <div class="kd-mkt-val" data-draw="v" data-source="latest" data-field="display" data-where="id=usdkrw" data-fetchpriority="high">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=usdkrw">—</div>
+        <div class="kd-mkt-note" data-draw="v" data-source="latest" data-field="note" data-where="id=usdkrw">—</div>
+      </div>
+      <div class="kd-mkt-item">
+        <div class="kd-mkt-label">미국채 10년</div>
+        <div class="kd-mkt-val" data-draw="v" data-source="latest" data-field="display" data-where="id=ust10y" data-fetchpriority="high">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=ust10y">—</div>
+        <div class="kd-mkt-note" data-draw="v" data-source="latest" data-field="note" data-where="id=ust10y">—</div>
+      </div>
+      <div class="kd-mkt-item">
+        <div class="kd-mkt-label">국제유가</div>
+        <div class="kd-mkt-val" data-draw="v" data-source="latest" data-field="display" data-where="id=oil" data-fetchpriority="high">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=oil">—</div>
+        <div class="kd-mkt-note" data-draw="v" data-source="latest" data-field="note" data-where="id=oil">—</div>
+      </div>
+      </div>
+    </section>
+    <div class="kd-signal">
+      지금 국면: 선행지수 순환변동치 <b data-draw="v" data-source="latest" data-field="display" data-where="id=cli">—</b> (<span data-draw="v" data-source="latest" data-field="asof" data-where="id=cli">—</span>)로 하락 전환. 교수님 권고 주식 비중은 <b data-draw="v" data-source="latest" data-field="display" data-where="id=weight">—</b>이며, 선행지수 상승 국면이면 이 비중을 늘립니다.
+    </div>
+  </header>
+
+  <nav class="kd-nav" aria-label="섹션">
+    <a href="#sec-temp">경기 체온계</a>
+    <a href="#sec-value">코스피 적정성</a>
+    <a href="#sec-macro">환율·금리·미국</a>
+    <a href="#sec-voices">교수님 한마디</a>
+    <a href="#sec-catalog">지표 카탈로그</a>
+  </nav>
+
+  <section class="kd-sec" id="sec-temp">
+    <h2><span class="kd-num">01</span>경기 체온계</h2>
+    <p class="kd-lead">교수님 판단의 출발점입니다. 선행지수 순환변동치가 오르면 주식을 늘리고, 꺾이면 줄입니다.</p>
+    <div class="kd-tiles">
+      <div class="kd-card">
+        <h3>선행지수 순환변동치</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=cli" data-fetchpriority="high">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=cli">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=cli">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=cli">—</p>
+      </div>
+      <div class="kd-card">
+        <h3>동행지수 순환변동치</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=cci">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=cci">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=cci">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=cci">—</p>
+      </div>
+      <div class="kd-card">
+        <h3>권고 주식 비중</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=weight" data-fetchpriority="high">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=weight">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=weight">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=weight">—</p>
+      </div>
+    </div>
+    <div class="kd-card">
+      <h3>주식 비중 신호</h3>
+      <p class="kd-note">현재 권고 비중과 선행지수 상승 국면일 때의 비중(막대 끝 표시)을 비교합니다.</p>
+      <div class="kd-chart" style="min-height:5rem" data-draw="weightbar" data-source="latest"></div>
+    </div>
+    <p class="kd-foot">뉴스심리지수(3개월 이동평균)는 선행지수보다 약 다섯 달 앞서 움직이는 보조 신호로 쓰입니다. 7월 영상에서는 3월 이후 하락 중이라고 언급했습니다. 추이 차트는 자동 수집을 붙인 뒤 추가합니다.</p>
+  </section>
+
+  <section class="kd-sec" id="sec-value">
+    <h2><span class="kd-num">02</span>코스피 적정성</h2>
+    <p class="kd-lead">중장기 지표(경제 규모·통화량 대비)와 단기 지표(수출·추세 대비)를 나눠 봅니다. 10월 영상 기준으로 중장기는 고평가, 단기는 저평가 영역입니다.</p>
+    <div class="kd-grid">
+      <div class="kd-card">
+        <h3>중장기: 장기 평균 대비 얼마나 높은가</h3>
+        <p class="kd-note">막대는 현재값, 세로선은 장기 평균입니다. 버핏지수는 2000년 이후, 시총/구 M2는 2005년 이후 평균.</p>
+        <div class="kd-chart kd-tall" data-draw="bullet" data-source="latest"></div>
+      </div>
+      <div class="kd-card">
+        <h3>코스피 위치: 고점 · 현재 · 적정치</h3>
+        <p class="kd-note">교수님이 본 이번 사이클 고점, 최근 종가, 수출 기반 적정 코스피를 한 축에 놓았습니다.</p>
+        <div class="kd-chart kd-tall" data-draw="ladder" data-source="latest"></div>
+      </div>
+    </div>
+    <div class="kd-tiles">
+      <div class="kd-card">
+        <h3>버핏지수</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=buffett">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=buffett">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=buffett">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=buffett">—</p>
+      </div>
+      <div class="kd-card">
+        <h3>코스피 시총 ÷ 구 M2</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=mcap_m2">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=mcap_m2">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=mcap_m2">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=mcap_m2">—</p>
+      </div>
+      <div class="kd-card">
+        <h3>HP필터 장기추세 대비</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=hp_gap">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=hp_gap">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=hp_gap">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=hp_gap">—</p>
+      </div>
+      <div class="kd-card">
+        <h3>반도체 수출 비중</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=semi_share">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=semi_share">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=semi_share">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=semi_share">—</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="kd-sec" id="sec-macro">
+    <h2><span class="kd-num">03</span>환율 · 금리 · 미국</h2>
+    <p class="kd-lead">교수님은 원화 강세(환율 중기 하락)와 내년 상반기 미국 경기 둔화를 함께 전망하고 있습니다.</p>
+    <div class="kd-tiles">
+      <div class="kd-card">
+        <h3>원·달러 환율</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=usdkrw">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=usdkrw">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=usdkrw">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=usdkrw">—</p>
+      </div>
+      <div class="kd-card">
+        <h3>환율 고점 (교수님 언급)</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=usdkrw_hi">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=usdkrw_hi">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=usdkrw_hi">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=usdkrw_hi">—</p>
+      </div>
+      <div class="kd-card">
+        <h3>경상수지 흑자</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=ca">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=ca">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=ca">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=ca">—</p>
+      </div>
+      <div class="kd-card">
+        <h3>국고채 3년</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=ktb3y">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=ktb3y">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=ktb3y">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=ktb3y">—</p>
+      </div>
+      <div class="kd-card">
+        <h3>미국채 10년</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=ust10y">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=ust10y">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=ust10y">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=ust10y">—</p>
+      </div>
+      <div class="kd-card">
+        <h3>국제유가</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=oil">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=oil">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=oil">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=oil">—</p>
+      </div>
+      <div class="kd-card">
+        <h3>미국 비농업 고용</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=nfp">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=nfp">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=nfp">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=nfp">—</p>
+      </div>
+    </div>
+    <p class="kd-foot">원화 강세 근거 다섯 가지(9월 출연): 달러인덱스 하락, 중국의 위안화 강세 유도, 엔화 저평가, 한미 실질금리차, 대규모 경상흑자. 미국 쪽은 실업률 12개월 이동평균, 개인소비, 주식 신용융자 잔액도 함께 봅니다.</p>
+  </section>
+
+  <section class="kd-sec" id="sec-voices">
+    <h2><span class="kd-num">04</span>교수님 한마디</h2>
+    <p class="kd-lead">영상·출연·기고에서 밝힌 전망을 날짜순으로 정리했습니다. 요약은 보도 내용을 바탕으로 다시 쓴 것입니다.</p>
+    <div class="kd-card">
+      <div class="kd-voices" data-draw="voices" data-source="voices"></div>
+    </div>
+  </section>
+
+  <section class="kd-sec" id="sec-catalog">
+    <h2><span class="kd-num">05</span>지표 카탈로그</h2>
+    <p class="kd-lead">교수님이 판단에 쓰는 지표 전체입니다. 처음 보는 분도 이해할 수 있게 지표마다 뜻과 읽는 법을 정리했습니다.</p>
+    <div class="kd-card">
+      <div class="kd-tools">
+        <input type="search" class="kd-search" placeholder="지표 검색" aria-label="지표 검색">
+        <button type="button" class="kd-chip" data-sec="" aria-pressed="true">전체</button>
+        <button type="button" class="kd-chip" data-sec="경기" aria-pressed="false">경기</button>
+        <button type="button" class="kd-chip" data-sec="밸류" aria-pressed="false">밸류</button>
+        <button type="button" class="kd-chip" data-sec="수출" aria-pressed="false">수출</button>
+        <button type="button" class="kd-chip" data-sec="금리" aria-pressed="false">금리</button>
+        <button type="button" class="kd-chip" data-sec="환율" aria-pressed="false">환율</button>
+        <button type="button" class="kd-chip" data-sec="미국" aria-pressed="false">미국</button>
+      </div>
+      <p class="kd-note">출처·발표 주기·마지막 반영일·다음 발표 예정·수집 경로는 바로 보이고, 한 줄 요약도 바로 보입니다. 지표를 누르면 자세한 설명과 읽는 법이 펼쳐집니다.</p>
+      <div class="kd-cat" data-draw="catalog" data-source="catalog latest"></div>
+    </div>
+    <p class="kd-foot">다음 발표 예정은 기관의 통상 일정 기준이라 실제 날짜와 하루이틀 다를 수 있습니다. 이 보드는 학습·제작 참고 자료이며 투자 추천이 아닙니다. 현재는 담당자가 확인한 값을 넣은 시안이고, KOSIS·ECOS·FRED·관세청 API를 연결하면 자동 갱신으로 바꿀 수 있습니다.</p>
+  </section>
+</div>
+
+
+</div>
+<script>
+(function () {
+  const rowOf = (id) => { const d = dash.data('latest'); return d.status === 'ok' ? d.data.find((r) => r.id === id) : null; };
+  const whereId = (el) => { const m = (el.dataset.where || '').match(/^id=(.+)$/); return m ? decodeURIComponent(m[1]) : null; };
+  window.kdRow = rowOf;
+
+  const isView = (r) => /김영익|머니올라|출연/.test(r && r.source || '');
+  dash.draw('v', (el) => {
+    const r = rowOf(whereId(el));
+    const f = el.dataset.field;
+    el.textContent = r && r[f] != null && r[f] !== '' ? String(r[f]) : '—';
+    el.classList.toggle('kd-view', f === 'note' && isView(r));
+  });
+
+  function tip(box) {
+    let t = box.querySelector('.kd-tip');
+    if (!t) { t = document.createElement('div'); t.className = 'kd-tip'; t.hidden = true; box.appendChild(t); }
+    return {
+      show(ev, k, v) {
+        t.replaceChildren();
+        const a = document.createElement('div'); a.className = 'kd-tip-k'; a.textContent = k;
+        const b = document.createElement('div'); b.textContent = v;
+        t.append(a, b); t.hidden = false;
+        const bb = box.getBoundingClientRect();
+        let x = ev.clientX - bb.left + 10, y = ev.clientY - bb.top + 10;
+        const tw = t.offsetWidth; if (x + tw > bb.width) x = Math.max(0, bb.width - tw);
+        t.style.left = x + 'px'; t.style.top = y + 'px';
+      },
+      hide() { t.hidden = true; }
+    };
+  }
+
+  function measure(svg, text, cls) {
+    const n = svg.append('text').attr('class', cls || '').style('font-size', 'var(--cds-font-size-caption)').text(text);
+    const w = n.node().getComputedTextLength(); n.remove(); return w;
+  }
+
+  dash.draw('weightbar', (el) => {
+    el.replaceChildren();
+    const r = rowOf('weight');
+    if (!r) { el.textContent = '—'; return; }
+    const W = el.clientWidth || 320, H = 64;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+    const x = d3.scaleLinear([0, 100], [0, W]);
+    svg.append('rect').attr('x', 0).attr('y', 18).attr('width', W).attr('height', 16).attr('rx', 4).style('fill', 'var(--cds-chart-grid)');
+    svg.append('rect').attr('x', 0).attr('y', 18).attr('width', x(r.value)).attr('height', 16).attr('rx', 4).style('fill', 'var(--cds-chart-status-critical)');
+    svg.append('line').attr('x1', x(r.avg)).attr('x2', x(r.avg)).attr('y1', 12).attr('y2', 40).style('stroke', 'var(--cds-chart-reference)').style('stroke-width', 2);
+    svg.append('text').attr('x', Math.min(x(r.value) + 6, W - 120)).attr('y', 58).style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg)').text(`현재 ${r.value}%`);
+    const lbl = `상승 국면 ${r.avg}%`;
+    const lw = measure(svg, lbl);
+    svg.append('text').attr('x', Math.max(0, Math.min(x(r.avg) - lw / 2, W - lw))).attr('y', 9).style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg-muted)').text(lbl);
+  });
+
+  dash.draw('bullet', (el) => {
+    el.replaceChildren();
+    const rows = ['buffett', 'mcap_m2'].map(rowOf).filter(Boolean);
+    if (!rows.length) return;
+    const tt = tip(el);
+    const W = el.clientWidth || 320, rowH = 64, H = rows.length * rowH + 8;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+    const max = d3.max(rows, (r) => Math.max(r.value, r.avg)) * 1.12;
+    const endW = measure(svg, '146%') + 8;
+    const x = d3.scaleLinear([0, max], [0, W - endW]);
+    rows.forEach((r, i) => {
+      const y0 = i * rowH;
+      const name = r.id === 'buffett' ? '버핏지수' : '시총 ÷ 구 M2';
+      svg.append('text').attr('x', 0).attr('y', y0 + 14).style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg-muted)').text(name);
+      svg.append('rect').attr('x', 0).attr('y', y0 + 22).attr('width', W - endW).attr('height', 22).attr('rx', 4).style('fill', 'var(--cds-chart-grid)');
+      const bar = svg.append('rect').attr('x', 0).attr('y', y0 + 22).attr('width', x(r.value)).attr('height', 22).attr('rx', 4).style('fill', r.value > r.avg ? 'var(--cds-chart-status-critical)' : dash.colors[0]);
+      svg.append('line').attr('x1', x(r.avg)).attr('x2', x(r.avg)).attr('y1', y0 + 17).attr('y2', y0 + 49).style('stroke', 'var(--color-fg)').style('stroke-width', 2);
+      svg.append('text').attr('x', x(r.value) + 6).attr('y', y0 + 38).style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg)').style('font-variant-numeric', 'tabular-nums').text(r.display);
+      bar.on('mousemove', (ev) => tt.show(ev, name, `현재 ${r.display} · 평균 ${r.avg}% (${r.asof})`)).on('mouseleave', () => tt.hide());
+    });
+  });
+
+  dash.draw('ladder', (el) => {
+    el.replaceChildren();
+    const pts = [['kospi_peak', '고점'], ['kospi', '현재'], ['fair_kospi', '적정치']].map(([id, k]) => { const r = rowOf(id); return r ? { ...r, k } : null; }).filter(Boolean);
+    if (!pts.length) return;
+    const tt = tip(el);
+    const W = el.clientWidth || 320, H = 150, pad = 28;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+    const lo = d3.min(pts, (p) => p.value), hi = d3.max(pts, (p) => p.value);
+    const x = d3.scaleLinear([lo * 0.85, hi * 1.05], [pad, W - pad]).nice();
+    const ax = svg.append('g').attr('transform', `translate(0,${H - 28})`).call(d3.axisBottom(x).ticks(Math.max(2, Math.floor(W / 90))).tickFormat(d3.format(','))).attr('font-size', null).attr('font-family', null);
+    ax.selectAll('text').style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg-muted)');
+    ax.selectAll('line,path').style('stroke', 'var(--cds-chart-axis)');
+    svg.append('line').attr('x1', x(lo)).attr('x2', x(hi)).attr('y1', 70).attr('y2', 70).style('stroke', 'var(--cds-chart-grid)').style('stroke-width', 6).style('stroke-linecap', 'round');
+    const sorted = [...pts].sort((a, b) => a.value - b.value);
+    sorted.forEach((p, i) => {
+      const above = i % 2 === 0;
+      const color = p.id === 'kospi' ? dash.colors[0] : p.id === 'kospi_peak' ? 'var(--cds-chart-status-critical)' : 'var(--cds-chart-muted)';
+      const c = svg.append('circle').attr('cx', x(p.value)).attr('cy', 70).attr('r', 7).style('fill', color).style('stroke', 'var(--color-panel)').style('stroke-width', 2);
+      const label = `${p.k} ${p.display}`;
+      const lw = measure(svg, label);
+      const lx = Math.max(0, Math.min(x(p.value) - lw / 2, W - lw));
+      svg.append('text').attr('x', lx).attr('y', above ? 50 : 98).style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg)').style('font-variant-numeric', 'tabular-nums').text(label);
+      c.on('mousemove', (ev) => tt.show(ev, `${p.k} (${p.asof})`, `${p.display} · ${p.note}`)).on('mouseleave', () => tt.hide());
+    });
+  });
+
+  dash.draw('voices', (el) => {
+    el.replaceChildren();
+    const d = dash.data('voices');
+    if (d.status !== 'ok') { el.textContent = '—'; return; }
+    [...d.data].sort((a, b) => String(b.date).localeCompare(String(a.date))).forEach((v) => {
+      const item = document.createElement('article'); item.className = 'kd-voice';
+      const dt = document.createElement('div'); dt.className = 'kd-vdate'; dt.textContent = `${v.date} · ${v.channel}`;
+      const ti = document.createElement('div'); ti.className = 'kd-vtitle'; ti.textContent = v.title;
+      const su = document.createElement('p'); su.className = 'kd-vsum'; su.textContent = v.summary;
+      item.append(dt, ti, su);
+      if (/^https:\/\//.test(v.url || '')) { const a = document.createElement('a'); a.href = v.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = '보도 원문 보기 ↗'; item.append(a); }
+      el.append(item);
+    });
+  });
+
+  const state = { q: '', sec: '' };
+  dash.draw('catalog', (box) => {
+    box.replaceChildren();
+    const d = dash.data('catalog');
+    const lat = dash.data('latest');
+    if (d.status !== 'ok') { box.textContent = '—'; return; }
+    const q = state.q.trim().toLowerCase();
+    const rows = d.data.filter((r) => (!state.sec || r.section === state.sec) && (!q || Object.values(r).join(' ').toLowerCase().includes(q)));
+    const mk = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt != null) n.textContent = txt; return n; };
+    rows.forEach((r) => {
+      const det = mk('details', 'kd-cat-item');
+      const sum = mk('summary', 'kd-cat-sum');
+      const facts = mk('span', 'kd-cat-facts');
+      const lr = r.ref && lat.status === 'ok' ? lat.data.find((x) => x.id === r.ref) : null;
+      const last = lr ? lr.asof : r.last;
+      [['출처', r.source], ['갱신', r.cycle], ['마지막 반영', last], ['다음 발표', r.next], ['수집', r.auto]].forEach(([k, v]) => { if (v) { const f = mk('span', 'kd-cat-fact'); f.append(mk('b', null, k), document.createTextNode(' ' + v)); facts.append(f); } });
+      sum.append(mk('span', 'kd-cat-tag', r.section), mk('span', 'kd-cat-name', r.indicator), mk('span', 'kd-cat-brief', r.brief || ''), facts, mk('span', 'kd-cat-use', '교수님 활용: ' + (r.use || '')));
+      det.append(sum);
+      const body = mk('div', 'kd-cat-body');
+      [['자세히 보면', r.meaning], ['어떻게 읽나요', r.read]].forEach(([k, v]) => { if (v) { body.append(mk('div', 'kd-cat-k', k), mk('p', 'kd-cat-v', v)); } });
+      det.append(body); box.append(det);
+    });
+    if (!rows.length) box.append(mk('p', 'kd-note', '조건에 맞는 지표가 없습니다.'));
+  });
+  document.querySelectorAll('#dash-root .kd-search').forEach((inp) => inp.addEventListener('input', () => { state.q = inp.value; dash.draw('catalog'); }));
+  document.querySelectorAll('#dash-root .kd-chip').forEach((b) => b.addEventListener('click', () => {
+    state.sec = b.dataset.sec || '';
+    document.querySelectorAll('#dash-root .kd-chip').forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+    dash.draw('catalog');
+  }));
+})();
+</script>
+
+<script>
+window.__kdLoad.then(() => {
+  dash._runAll();
+  let w = window.innerWidth; window.addEventListener('resize', () => { if (Math.abs(window.innerWidth - w) > 20) { w = window.innerWidth; dash._runAll(); } });
+});
+</script>
+</body>
+</html>
