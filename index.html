@@ -162,6 +162,57 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
   #dash-root .kd-sec > h2 { font-size: 1.15rem; }
   #dash-root .kd-mkt-item:not(:first-child) { background: var(--color-bg); border-radius: var(--cds-radius); padding: var(--cds-pad-sm); }
 }
+/* 지표 사전 */
+#dash-root .kd { --kd-bad: #d0533f; --kd-warn: #c48a1a; --kd-ok: #2f9e6f; --kd-neutral: #8a867c; }
+#dash-root .kd-t-bad { --t: var(--kd-bad); }
+#dash-root .kd-t-warn { --t: var(--kd-warn); }
+#dash-root .kd-t-ok { --t: var(--kd-ok); }
+#dash-root .kd-t-neutral { --t: var(--kd-neutral); }
+#dash-root .kd-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--t); flex: none; }
+#dash-root .kd-cx-legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm) var(--cds-gap-md); align-items: center; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+#dash-root .kd-cx-legend span { display: inline-flex; align-items: center; gap: 5px; }
+#dash-root .kd-cx-legend-note { margin-left: auto; }
+#dash-root .kd-cx-head { margin-top: var(--cds-gap-xs); }
+#dash-root .kd-cx-title { margin: 0; font-size: var(--cds-font-size-body); font-weight: 700; }
+#dash-root .kd-cx-core { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); gap: var(--cds-gap-sm); }
+#dash-root .kd-core-card { display: flex; flex-direction: column; gap: 4px; padding: var(--cds-pad-md); border-radius: var(--cds-radius); background: var(--color-panel); border: 1px solid var(--color-border-line); border-left: 4px solid var(--t, var(--kd-neutral)); text-decoration: none; color: var(--color-fg); transition: transform .2s, box-shadow .2s; }
+#dash-root .kd-core-card:hover { transform: translateY(-2px); box-shadow: var(--cds-shadow-popover); }
+#dash-root .kd-tb-bad { --t: var(--kd-bad); }
+#dash-root .kd-tb-warn { --t: var(--kd-warn); }
+#dash-root .kd-tb-ok { --t: var(--kd-ok); }
+#dash-root .kd-tb-neutral { --t: var(--kd-neutral); }
+#dash-root .kd-core-sec { font-size: 0.72rem; color: var(--color-fg-muted); }
+#dash-root .kd-core-name { font-weight: 650; font-size: var(--cds-font-size-body); line-height: 1.35; }
+#dash-root .kd-core-val { font-size: 1.35rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+#dash-root .kd-badge { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; font-size: var(--cds-font-size-caption); font-weight: 600; color: var(--t); background: color-mix(in srgb, var(--t) 12%, transparent); border: 1px solid color-mix(in srgb, var(--t) 35%, transparent); border-radius: 999px; padding: 2px 10px 2px 8px; white-space: nowrap; }
+#dash-root .kd-cx-panel { gap: var(--cds-gap-sm); }
+#dash-root .kd-cx-sec { display: flex; align-items: baseline; gap: var(--cds-gap-sm); margin: var(--cds-gap-lg) 0 var(--cds-gap-xs); padding: 6px 0; border-bottom: 2px solid var(--color-fg); position: sticky; top: 2.8rem; background: var(--color-panel); z-index: 1; }
+#dash-root .kd-cx-sec:first-child { margin-top: var(--cds-gap-xs); }
+#dash-root .kd-cx-sec-name { font-size: var(--cds-font-size-heading); font-weight: 700; letter-spacing: -0.02em; }
+#dash-root .kd-cx-sec-desc { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+#dash-root .kd-cx-sum { cursor: pointer; list-style: none; padding: var(--cds-pad-md) 0; display: flex; flex-direction: column; gap: 6px; }
+#dash-root .kd-cx-sum::-webkit-details-marker { display: none; }
+#dash-root .kd-cx-top { display: flex; align-items: baseline; gap: var(--cds-gap-sm); flex-wrap: wrap; }
+#dash-root .kd-cx-top::after { content: "+"; margin-left: auto; color: var(--color-fg-muted); font-size: 1.1rem; }
+#dash-root .kd-cat-item[open] .kd-cx-top::after { content: "−"; }
+#dash-root .kd-stars { font-size: 0.75rem; color: #c48a1a; letter-spacing: 1px; }
+#dash-root .kd-cx-val { font-weight: 700; font-variant-numeric: tabular-nums; background: var(--color-bg); border: 1px solid var(--color-border-line); border-radius: 6px; padding: 0 8px; font-size: var(--cds-font-size-caption); }
+#dash-root .kd-cx-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px var(--cds-gap-sm); }
+#dash-root .kd-cx-rule { font-size: var(--cds-font-size-caption); line-height: 1.5; }
+#dash-root .kd-cx-rule b { font-weight: 700; margin-right: 2px; }
+#dash-root .kd-cat-facts { display: flex; flex-wrap: wrap; gap: 4px 6px; }
+#dash-root .kd-cx-foot { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm) var(--cds-gap-md); align-items: center; margin-top: var(--cds-gap-sm); padding-top: var(--cds-pad-sm); border-top: 1px dashed var(--color-border-line); }
+#dash-root .kd-cx-link { font-size: var(--cds-font-size-caption); font-weight: 600; color: var(--color-fg); text-decoration: none; border: 1px solid var(--color-border-line); border-radius: 999px; padding: 3px 12px; }
+#dash-root .kd-cx-link:hover { background: var(--color-bg); }
+#dash-root .kd-cx-auto { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+#dash-root .kd-cat { max-height: none; overflow: visible; }
+#dash-root .kd-cat-body { padding: 0 0 var(--cds-pad-sm) var(--cds-pad-md); border-left: 2px solid var(--color-border-line); margin: 0 0 var(--cds-pad-md) 4px; }
+@media (max-width: 640px) {
+  #dash-root .kd-cx-core { grid-template-columns: 1fr 1fr; }
+  #dash-root .kd-core-card { padding: var(--cds-pad-sm); }
+  #dash-root .kd-core-val { font-size: 1.1rem; }
+  #dash-root .kd-cx-legend-note { margin-left: 0; width: 100%; }
+}
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 </style>
@@ -206,15 +257,15 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
   </header>
 
   <nav class="kd-nav" aria-label="섹션">
-    <a href="#sec-temp">경기 나침반</a>
+    <a href="#sec-temp">경기 레이더</a>
     <a href="#sec-value">코스피 적정성</a>
     <a href="#sec-macro">환율·금리·미국</a>
     <a href="#sec-voices">교수님 한마디</a>
-    <a href="#sec-catalog">지표 카탈로그</a>
+    <a href="#sec-catalog">지표 사전</a>
   </nav>
 
   <section class="kd-sec" id="sec-temp">
-    <h2><span class="kd-num">01</span>경기 나침반</h2>
+    <h2><span class="kd-num">01</span>경기 레이더</h2>
     <p class="kd-lead">교수님 판단의 출발점입니다. 선행지수 순환변동치가 오르면 주식을 늘리고, 꺾이면 줄입니다.</p>
     <div class="kd-tiles">
       <div class="kd-card">
@@ -360,11 +411,20 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
   </section>
 
   <section class="kd-sec" id="sec-catalog">
-    <h2><span class="kd-num">05</span>지표 카탈로그</h2>
-    <p class="kd-lead">교수님이 판단에 쓰는 지표 전체입니다. 처음 보는 분도 이해할 수 있게 지표마다 뜻과 읽는 법을 정리했습니다.</p>
-    <div class="kd-card">
+    <h2><span class="kd-num">05</span>지표 사전</h2>
+    <p class="kd-lead">교수님이 판단에 쓰는 지표 전체를 분야별로 정리한 지표 사전입니다. 지표마다 중요도(★), 교수님의 현재 판단, 판단 기준, 다음 발표일을 한눈에 볼 수 있습니다.</p>
+    <div class="kd-cx-legend">
+      <span><i class="kd-dot kd-t-bad"></i>경계</span><span><i class="kd-dot kd-t-warn"></i>주의</span><span><i class="kd-dot kd-t-ok"></i>기회</span><span><i class="kd-dot kd-t-neutral"></i>중립</span>
+      <span class="kd-cx-legend-note">색 배지는 교수님의 현재 판단입니다</span>
+    </div>
+    <div class="kd-cx-head">
+      <h3 class="kd-cx-title">★ 교수님 핵심 지표</h3>
+      <p class="kd-note">교수님이 영상마다 빠짐없이 짚는 10개 지표입니다. 누르면 아래 상세 설명으로 이동합니다.</p>
+    </div>
+    <div class="kd-cx-core" data-draw="catcore" data-source="catalog latest"></div>
+    <div class="kd-card kd-cx-panel">
       <div class="kd-tools">
-        <input type="search" class="kd-search" placeholder="지표 검색" aria-label="지표 검색">
+        <input type="search" class="kd-search" placeholder="지표 이름이나 뜻으로 검색" aria-label="지표 검색">
         <button type="button" class="kd-chip" data-sec="" aria-pressed="true">전체</button>
         <button type="button" class="kd-chip" data-sec="경기" aria-pressed="false">경기</button>
         <button type="button" class="kd-chip" data-sec="밸류" aria-pressed="false">밸류</button>
@@ -372,8 +432,9 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
         <button type="button" class="kd-chip" data-sec="금리" aria-pressed="false">금리</button>
         <button type="button" class="kd-chip" data-sec="환율" aria-pressed="false">환율</button>
         <button type="button" class="kd-chip" data-sec="미국" aria-pressed="false">미국</button>
+        <button type="button" class="kd-chip kd-chip-core" data-core="1" aria-pressed="false">★ 핵심만</button>
       </div>
-      <p class="kd-note">출처·발표 주기·마지막 반영일·다음 발표 예정·수집 경로는 바로 보이고, 한 줄 요약도 바로 보입니다. 지표를 누르면 자세한 설명과 읽는 법이 펼쳐집니다.</p>
+      <p class="kd-note">지표를 누르면 자세한 뜻, 읽는 법, 원본 데이터 링크가 펼쳐집니다.</p>
       <div class="kd-cat" data-draw="catalog" data-source="catalog latest"></div>
     </div>
     <p class="kd-foot">다음 발표 예정은 기관의 통상 일정 기준이라 실제 날짜와 하루이틀 다를 수 있습니다. 이 보드는 학습·제작 참고 자료이며 투자 추천이 아닙니다. 현재는 담당자가 확인한 값을 넣은 시안이고, KOSIS·ECOS·FRED·관세청 API를 연결하면 자동 갱신으로 바꿀 수 있습니다.</p>
@@ -498,34 +559,69 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
     });
   });
 
-  const state = { q: '', sec: '' };
+  const SEC_ORDER = ['경기','밸류','수출','금리','환율','미국'];
+  const SEC_DESC = {'경기':'경기가 어디로 가는지','밸류':'코스피가 비싼지 싼지','수출':'한국 경기의 실물 엔진','금리':'돈의 값과 정책 방향','환율':'원화의 힘','미국':'세계 시장의 큰 흐름'};
+  const mk = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt != null) n.textContent = txt; return n; };
+  const cur = (r, lat) => (r.ref && lat.status === 'ok' ? lat.data.find((y) => y.id === r.ref) : null);
+  const slug = (s) => 'ind-' + Math.abs(Array.from(s).reduce((h, c) => ((h << 5) - h + c.charCodeAt(0)) | 0, 0)).toString(36);
+  const badge = (r) => { const tone = r.tone || 'neutral'; const b = mk('span', 'kd-badge kd-t-' + tone); b.append(mk('i', 'kd-dot kd-t-' + tone), document.createTextNode(r.status || '')); return b; };
+  const stars = (tier) => { const n = 4 - (tier || 3); return '★'.repeat(n) + '☆'.repeat(3 - n); };
+  dash.draw('catcore', (box) => {
+    box.replaceChildren();
+    const d = dash.data('catalog'); const lat = dash.data('latest');
+    if (d.status !== 'ok') { box.textContent = '—'; return; }
+    d.data.filter((r) => r.tier === 1).forEach((r) => {
+      const a = mk('a', 'kd-core-card kd-tb-' + (r.tone || 'neutral')); a.href = '#' + slug(r.indicator);
+      a.addEventListener('click', (e) => { e.preventDefault(); const el = document.getElementById(slug(r.indicator)); if (el) { el.open = true; el.scrollIntoView({behavior: 'smooth', block: 'center'}); } });
+      a.append(mk('span', 'kd-core-sec', r.section), mk('span', 'kd-core-name', r.indicator.replace(/\s*\(.*\)\s*/, '')));
+      const x = cur(r, lat); if (x) a.append(mk('span', 'kd-core-val', x.display));
+      a.append(badge(r));
+      box.append(a);
+    });
+  });
+  const state = { q: '', sec: '', core: false };
   dash.draw('catalog', (box) => {
     box.replaceChildren();
-    const d = dash.data('catalog');
-    const lat = dash.data('latest');
+    const d = dash.data('catalog'); const lat = dash.data('latest');
     if (d.status !== 'ok') { box.textContent = '—'; return; }
     const q = state.q.trim().toLowerCase();
-    const rows = d.data.filter((r) => (!state.sec || r.section === state.sec) && (!q || Object.values(r).join(' ').toLowerCase().includes(q)));
-    const mk = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt != null) n.textContent = txt; return n; };
-    rows.forEach((r) => {
-      const det = mk('details', 'kd-cat-item');
-      const sum = mk('summary', 'kd-cat-sum');
-      const facts = mk('span', 'kd-cat-facts');
-      const lr = r.ref && lat.status === 'ok' ? lat.data.find((x) => x.id === r.ref) : null;
-      const last = lr ? lr.asof : r.last;
-      [['출처', r.source], ['갱신', r.cycle], ['마지막 반영', last], ['다음 발표', r.next], ['수집', r.auto]].forEach(([k, v]) => { if (v) { const f = mk('span', 'kd-cat-fact'); f.append(mk('b', null, k), document.createTextNode(' ' + v)); facts.append(f); } });
-      sum.append(mk('span', 'kd-cat-tag', r.section), mk('span', 'kd-cat-name', r.indicator), mk('span', 'kd-cat-brief', r.brief || ''), facts, mk('span', 'kd-cat-use', '교수님 활용: ' + (r.use || '')));
-      det.append(sum);
-      const body = mk('div', 'kd-cat-body');
-      [['자세히 보면', r.meaning], ['어떻게 읽나요', r.read]].forEach(([k, v]) => { if (v) { body.append(mk('div', 'kd-cat-k', k), mk('p', 'kd-cat-v', v)); } });
-      det.append(body); box.append(det);
+    const rows = d.data.filter((r) => (!state.sec || r.section === state.sec) && (!state.core || r.tier === 1) && (!q || Object.values(r).join(' ').toLowerCase().includes(q)));
+    SEC_ORDER.forEach((sec) => {
+      const list = rows.filter((r) => r.section === sec).sort((p, p2) => (p.tier || 3) - (p2.tier || 3));
+      if (!list.length) return;
+      const h = mk('div', 'kd-cx-sec'); h.append(mk('span', 'kd-cx-sec-name', sec), mk('span', 'kd-cx-sec-desc', SEC_DESC[sec] + ' · ' + list.length + '개')); box.append(h);
+      list.forEach((r) => {
+        const det = mk('details', 'kd-cat-item'); det.id = slug(r.indicator);
+        const sum = mk('summary', 'kd-cx-sum');
+        const top = mk('div', 'kd-cx-top');
+        top.append(mk('span', 'kd-stars', stars(r.tier)), mk('span', 'kd-cat-name', r.indicator));
+        const x = cur(r, lat); if (x) top.append(mk('span', 'kd-cx-val', x.display));
+        sum.append(top);
+        if (r.brief) sum.append(mk('p', 'kd-cat-brief', r.brief));
+        const row = mk('div', 'kd-cx-row'); row.append(badge(r));
+        if (r.rule) { const ru = mk('span', 'kd-cx-rule kd-view'); ru.append(mk('b', null, '판단 기준 '), document.createTextNode(r.rule)); row.append(ru); }
+        sum.append(row);
+        const last = x ? x.asof : r.last;
+        const facts = mk('div', 'kd-cat-facts');
+        [['출처', r.source], ['발표', r.cycle], ['마지막 반영', last], ['다음 발표', r.next]].forEach(([k, v]) => { if (v) { const f = mk('span', 'kd-cat-fact'); f.append(mk('b', null, k), document.createTextNode(' ' + v)); facts.append(f); } });
+        sum.append(facts);
+        det.append(sum);
+        const body = mk('div', 'kd-cat-body');
+        [['자세히 보면', r.meaning, ''], ['어떻게 읽나요', r.read, ''], ['교수님은 이렇게 씁니다', r.use, 'kd-view']].forEach(([k, v, c]) => { if (v) { body.append(mk('div', 'kd-cat-k', k), mk('p', 'kd-cat-v' + (c ? ' ' + c : ''), v)); } });
+        const foot = mk('div', 'kd-cx-foot');
+        if (/^https:\/\//.test(r.link || '')) { const l = mk('a', 'kd-cx-link', '원본 데이터 보기 ↗'); l.href = r.link; l.target = '_blank'; l.rel = 'noopener'; foot.append(l); }
+        if (r.auto) foot.append(mk('span', 'kd-cx-auto', '수집 경로 · ' + r.auto));
+        body.append(foot);
+        det.append(body); box.append(det);
+      });
     });
     if (!rows.length) box.append(mk('p', 'kd-note', '조건에 맞는 지표가 없습니다.'));
   });
   document.querySelectorAll('#dash-root .kd-search').forEach((inp) => inp.addEventListener('input', () => { state.q = inp.value; dash.draw('catalog'); }));
   document.querySelectorAll('#dash-root .kd-chip').forEach((b) => b.addEventListener('click', () => {
+    if (b.dataset.core) { state.core = !state.core; b.setAttribute('aria-pressed', String(state.core)); dash.draw('catalog'); return; }
     state.sec = b.dataset.sec || '';
-    document.querySelectorAll('#dash-root .kd-chip').forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+    document.querySelectorAll('#dash-root .kd-chip:not([data-core])').forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
     dash.draw('catalog');
   }));
 })();
