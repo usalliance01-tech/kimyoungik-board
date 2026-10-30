@@ -138,6 +138,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
   #dash-root .kd-mkt-item:first-child .kd-mkt-val { font-size: 2.3rem; }
   #dash-root .kd-mkt-val { font-size: 1.35rem; }
   #dash-root .kd-mkt-note { font-size: 0.8rem; }
+  #dash-root .kd-mkt-item:not(:first-child) .kd-mkt-chg { font-size: 0.82rem; }
   #dash-root .kd-tiles { gap: var(--cds-gap-sm); }
   #dash-root .kd-tiles .kd-card { display: grid; grid-template-columns: 1fr auto; column-gap: var(--cds-gap-md); row-gap: 2px; align-items: baseline; }
   #dash-root .kd-tiles .kd-card h3 { grid-column: 1; grid-row: 1; }
@@ -230,6 +231,17 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
 #dash-root .kd-live.kd-live-on i { background: var(--kd-up); animation: kdPulse 1.6s ease-in-out infinite; }
 @keyframes kdPulse { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
 @media (prefers-reduced-motion: reduce) { #dash-root .kd-live.kd-live-on i { animation: none; } }
+/* 항목별 실시간 점 */
+#dash-root .kd-mkt-label { display: flex; align-items: center; gap: 6px; }
+#dash-root .kd-mkt-item.is-live .kd-mkt-label::before, #dash-root .kd-mkt-item.is-closed .kd-mkt-label::before { content: ""; width: 7px; height: 7px; border-radius: 50%; flex: none; }
+#dash-root .kd-mkt-item.is-live .kd-mkt-label::before { background: var(--kd-up); box-shadow: 0 0 0 3px color-mix(in srgb, var(--kd-up) 20%, transparent); animation: kdPulse 1.6s ease-in-out infinite; }
+#dash-root .kd-mkt-item.is-closed .kd-mkt-label::before { background: var(--color-fg-muted); opacity: .5; }
+#dash-root .kd-mkt-val { border-radius: 6px; margin-inline: -4px; padding-inline: 4px; }
+#dash-root .kd-mkt-item.kd-flash-up .kd-mkt-val { animation: kdFlashUp 1.4s ease-out; }
+#dash-root .kd-mkt-item.kd-flash-down .kd-mkt-val { animation: kdFlashDown 1.4s ease-out; }
+@keyframes kdFlashUp { 0% { background: color-mix(in srgb, var(--kd-up) 28%, transparent); } 100% { background: transparent; } }
+@keyframes kdFlashDown { 0% { background: color-mix(in srgb, var(--kd-down) 28%, transparent); } 100% { background: transparent; } }
+@media (prefers-reduced-motion: reduce) { #dash-root .kd-mkt-item .kd-mkt-label::before, #dash-root .kd-mkt-item .kd-mkt-val { animation: none !important; } }
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 </style>
@@ -240,7 +252,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
     <p>교수님이 영상·인터뷰에서 판단 근거로 쓰는 지표를 한곳에 모은 팀원용 보드입니다. 수치는 공개 발언과 언론 보도에서 확인한 최신값이며, 각 수치 아래에 기준일을 표시했습니다.</p>
     <div class="kd-legend"><i></i>노란 글씨는 교수님의 해석과 전망입니다</div>
     <section class="kd-mkt" aria-label="오늘의 시장">
-      <div class="kd-mkt-head">오늘의 시장 <span class="kd-meta">평일 장 마감 후 자동 갱신</span><span class="kd-live" hidden><i></i>코스피 실시간 <span class="kd-live-time"></span></span></div>
+      <div class="kd-mkt-head">오늘의 시장 <span class="kd-meta kd-static-note">평일 장 마감 후 자동 갱신</span><span class="kd-live" hidden><i></i>실시간 갱신 중 <span class="kd-live-time"></span></span></div>
       <div class="kd-mkt-grid">
       <div class="kd-mkt-item">
         <div class="kd-mkt-label">코스피</div>
@@ -255,6 +267,13 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
         <div class="kd-mkt-chg" data-draw="chg" data-source="latest" data-field="chgPct" data-where="id=usdkrw">—</div>
         <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=usdkrw">—</div>
         <div class="kd-mkt-note" data-draw="v" data-source="latest" data-field="note" data-where="id=usdkrw">—</div>
+      </div>
+      <div class="kd-mkt-item">
+        <div class="kd-mkt-label">나스닥 (전일)</div>
+        <div class="kd-mkt-val" data-draw="v" data-source="latest" data-field="display" data-where="id=nasdaq" data-fetchpriority="high">—</div>
+        <div class="kd-mkt-chg" data-draw="chg" data-source="latest" data-field="chgPct" data-where="id=nasdaq">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=nasdaq">—</div>
+        <div class="kd-mkt-note" data-draw="v" data-source="latest" data-field="note" data-where="id=nasdaq">—</div>
       </div>
       <div class="kd-mkt-item">
         <div class="kd-mkt-label">미국채 10년</div>
@@ -668,37 +687,79 @@ window.__kdLoad.then(() => {
 });
 </script>
 <script>
-/* 코스피 실시간: /api/kospi (Netlify 함수)를 1분마다 읽어 '오늘의 시장' 코스피 칸을 갱신합니다. */
+/* 오늘의 시장 실시간: /api/quotes (Netlify 함수)를 1분마다 읽어 각 칸을 갱신합니다.
+   갱신 중인 항목에는 빨간 점이, 장이 닫힌 항목에는 회색 점이 붙고, 값이 바뀌면 잠깐 반짝입니다. */
 (function () {
+  const RULES = {
+    kospi: { dp: 2, unit: '', chgDp: 2, chgUnit: '', pct: true },
+    usdkrw: { dp: 1, unit: '원', chgDp: 1, chgUnit: '원', pct: true },
+    nasdaq: { dp: 2, unit: '', chgDp: 2, chgUnit: '', pct: true },
+    ust10y: { dp: 2, unit: '%', chgDp: 2, chgUnit: '%p', pct: false },
+    oil: { dp: 2, unit: '달러', chgDp: 2, chgUnit: '달러', pct: true },
+  };
+  const isView = (src) => /김영익|머니올라|출연/.test(src || '');
+  const fmt = (n, dp) => Number(n).toLocaleString('ko-KR', { minimumFractionDigits: dp, maximumFractionDigits: dp });
+  const round = (n, dp) => (n == null || !isFinite(n) ? null : Math.round(n * Math.pow(10, dp)) / Math.pow(10, dp));
+  const kst = (iso, opt) => new Date(iso).toLocaleString('ko-KR', Object.assign({ timeZone: 'Asia/Seoul', hour12: false }, opt));
+  const itemOf = (id) => { const v = document.querySelector('.kd-mkt-val[data-where="id=' + id + '"]'); return v ? v.closest('.kd-mkt-item') : null; };
   const badge = document.querySelector('.kd-live');
   const timeEl = document.querySelector('.kd-live-time');
-  const fmt = (n) => Number(n).toLocaleString('ko-KR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const staticNote = document.querySelector('.kd-static-note');
+  const first = {};
+
   async function tick() {
     if (document.hidden) return;
+    let q;
     try {
-      const res = await fetch('/api/kospi', { cache: 'no-store' });
+      const res = await fetch('/api/quotes', { cache: 'no-store' });
       if (!res.ok) return;
-      const q = await res.json();
-      if (!q || !isFinite(q.price)) return;
-      const d = dash.data('latest');
-      if (d.status !== 'ok') return;
-      const row = d.data.find((x) => x.id === 'kospi');
-      if (!row) return;
-      const t = q.time ? new Date(q.time) : new Date();
-      const hhmm = t.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Seoul' });
-      const ymd = t.toLocaleDateString('sv-SE', { timeZone: 'Asia/Seoul' });
-      row.value = Number(q.price);
-      row.display = fmt(q.price);
-      row.chg = q.change;
-      row.chgPct = q.changePct;
-      row.chgUnit = '';
-      row.asof = q.open ? ymd + ' ' + hhmm + ' 기준' : ymd + ' 종가';
-      row.note = q.open ? '장중 1분마다 자동 갱신 · ' + q.source : '장 마감 · ' + q.source;
-      row.source = q.source;
-      dash._runAll();
-      if (badge) { badge.hidden = false; badge.classList.toggle('kd-live-on', !!q.open); }
-      if (timeEl) timeEl.textContent = q.open ? hhmm : '장 마감';
-    } catch (e) { /* 실시간 조회 실패 시 저장된 종가를 그대로 보여줍니다 */ }
+      q = await res.json();
+    } catch (e) { return; }
+    const d = dash.data('latest');
+    if (d.status !== 'ok') return;
+    const changed = [];
+    let anyOpen = false;
+    Object.keys(RULES).forEach((id) => {
+      const x = q[id]; const r = RULES[id];
+      const row = d.data.find((y) => y.id === id);
+      if (!x || !row || !isFinite(x.price)) return;
+      const price = round(x.price, r.dp);
+      const prev = row.__live;
+      row.__live = price;
+      row.value = price;
+      row.display = fmt(price, r.dp) + r.unit;
+      row.chg = round(x.change, r.chgDp);
+      row.chgPct = r.pct ? round(x.changePct, 2) : null;
+      row.chgUnit = r.chgUnit;
+      const t = x.time || q.fetchedAt;
+      if (x.open) {
+        row.asof = kst(t, { month: '2-digit', day: '2-digit' }).replace(/\.\s?/g, '/').replace(/\/$/, '') + ' ' + kst(t, { hour: '2-digit', minute: '2-digit' }) + ' 실시간';
+        anyOpen = true;
+      } else {
+        row.asof = String(t).slice(5, 10).replace('-', '/') + ' 종가' + (id === 'nasdaq' || id === 'ust10y' || id === 'oil' ? ' (미국)' : '');
+      }
+      if (!isView(row.source)) row.note = x.source;
+      const el = itemOf(id);
+      if (el) {
+        el.classList.toggle('is-live', !!x.open);
+        el.classList.toggle('is-closed', !x.open);
+        if (prev != null && prev !== price) changed.push([el, price > prev ? 'up' : 'down']);
+      }
+      first[id] = true;
+    });
+    dash._runAll();
+    changed.forEach(([el, dir]) => {
+      el.classList.remove('kd-flash-up', 'kd-flash-down');
+      void el.offsetWidth;
+      el.classList.add('kd-flash-' + dir);
+      setTimeout(() => el.classList.remove('kd-flash-' + dir), 1500);
+    });
+    if (Object.keys(first).length) {
+      if (staticNote) staticNote.hidden = true;
+      if (badge) { badge.hidden = false; badge.classList.toggle('kd-live-on', anyOpen); }
+      if (timeEl) timeEl.textContent = kst(q.fetchedAt || new Date().toISOString(), { hour: '2-digit', minute: '2-digit' });
+      if (badge && badge.childNodes[1]) badge.childNodes[1].textContent = anyOpen ? '실시간 갱신 중 ' : '장 마감 · 마지막 확인 ';
+    }
   }
   window.__kdLoad.then(() => {
     tick();
