@@ -213,6 +213,23 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
   #dash-root .kd-core-val { font-size: 1.1rem; }
   #dash-root .kd-cx-legend-note { margin-left: 0; width: 100%; }
 }
+/* 등락 · 실시간 */
+#dash-root .kd { --kd-up: #d0533f; --kd-down: #2f6fdb; }
+@media (prefers-color-scheme: dark) { #dash-root .kd { --kd-up: #ff7b69; --kd-down: #6ea2ff; } }
+:root[data-theme="dark"] #dash-root .kd { --kd-up: #ff7b69; --kd-down: #6ea2ff; }
+:root[data-theme="light"] #dash-root .kd { --kd-up: #d0533f; --kd-down: #2f6fdb; }
+#dash-root .kd-mkt-chg { font-size: 0.95rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+#dash-root .kd-mkt-item:first-child .kd-mkt-chg { font-size: 1.1rem; }
+#dash-root .kd-up { color: var(--kd-up); }
+#dash-root .kd-down { color: var(--kd-down); }
+#dash-root .kd-flat { color: var(--color-fg-muted); }
+#dash-root .kd-live { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; font-size: var(--cds-font-size-caption); font-weight: 600; color: var(--color-fg-muted); }
+#dash-root .kd-live[hidden] { display: none; }
+#dash-root .kd-live i { width: 8px; height: 8px; border-radius: 50%; background: var(--color-fg-muted); }
+#dash-root .kd-live.kd-live-on { color: var(--kd-up); }
+#dash-root .kd-live.kd-live-on i { background: var(--kd-up); animation: kdPulse 1.6s ease-in-out infinite; }
+@keyframes kdPulse { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { #dash-root .kd-live.kd-live-on i { animation: none; } }
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 </style>
@@ -223,29 +240,33 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
     <p>교수님이 영상·인터뷰에서 판단 근거로 쓰는 지표를 한곳에 모은 팀원용 보드입니다. 수치는 공개 발언과 언론 보도에서 확인한 최신값이며, 각 수치 아래에 기준일을 표시했습니다.</p>
     <div class="kd-legend"><i></i>노란 글씨는 교수님의 해석과 전망입니다</div>
     <section class="kd-mkt" aria-label="오늘의 시장">
-      <div class="kd-mkt-head">오늘의 시장 <span class="kd-meta">평일 16:23 자동 갱신</span></div>
+      <div class="kd-mkt-head">오늘의 시장 <span class="kd-meta">평일 장 마감 후 자동 갱신</span><span class="kd-live" hidden><i></i>코스피 실시간 <span class="kd-live-time"></span></span></div>
       <div class="kd-mkt-grid">
       <div class="kd-mkt-item">
         <div class="kd-mkt-label">코스피</div>
         <div class="kd-mkt-val" data-draw="v" data-source="latest" data-field="display" data-where="id=kospi" data-fetchpriority="high">—</div>
+        <div class="kd-mkt-chg" data-draw="chg" data-source="latest" data-field="chgPct" data-where="id=kospi">—</div>
         <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=kospi">—</div>
         <div class="kd-mkt-note" data-draw="v" data-source="latest" data-field="note" data-where="id=kospi">—</div>
       </div>
       <div class="kd-mkt-item">
         <div class="kd-mkt-label">원·달러 환율</div>
         <div class="kd-mkt-val" data-draw="v" data-source="latest" data-field="display" data-where="id=usdkrw" data-fetchpriority="high">—</div>
+        <div class="kd-mkt-chg" data-draw="chg" data-source="latest" data-field="chgPct" data-where="id=usdkrw">—</div>
         <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=usdkrw">—</div>
         <div class="kd-mkt-note" data-draw="v" data-source="latest" data-field="note" data-where="id=usdkrw">—</div>
       </div>
       <div class="kd-mkt-item">
         <div class="kd-mkt-label">미국채 10년</div>
         <div class="kd-mkt-val" data-draw="v" data-source="latest" data-field="display" data-where="id=ust10y" data-fetchpriority="high">—</div>
+        <div class="kd-mkt-chg" data-draw="chg" data-source="latest" data-field="chgPct" data-where="id=ust10y">—</div>
         <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=ust10y">—</div>
         <div class="kd-mkt-note" data-draw="v" data-source="latest" data-field="note" data-where="id=ust10y">—</div>
       </div>
       <div class="kd-mkt-item">
         <div class="kd-mkt-label">국제유가</div>
         <div class="kd-mkt-val" data-draw="v" data-source="latest" data-field="display" data-where="id=oil" data-fetchpriority="high">—</div>
+        <div class="kd-mkt-chg" data-draw="chg" data-source="latest" data-field="chgPct" data-where="id=oil">—</div>
         <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=oil">—</div>
         <div class="kd-mkt-note" data-draw="v" data-source="latest" data-field="note" data-where="id=oil">—</div>
       </div>
@@ -457,6 +478,19 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
     el.classList.toggle('kd-view', f === 'note' && isView(r));
   });
 
+  dash.draw('chg', (el) => {
+    const r = rowOf(whereId(el));
+    el.classList.remove('kd-up', 'kd-down', 'kd-flat');
+    if (!r || r.chg == null || r.chg === '' || !isFinite(Number(r.chg))) { el.textContent = ''; return; }
+    const c = Number(r.chg); const p = r.chgPct == null || r.chgPct === '' ? null : Number(r.chgPct);
+    const dir = c > 0 ? 'up' : c < 0 ? 'down' : 'flat';
+    el.classList.add('kd-' + dir);
+    const arrow = dir === 'up' ? '▲' : dir === 'down' ? '▼' : '–';
+    const dec = Math.min(2, ((String(r.chg).split('.')[1]) || '').length);
+    const abs = Math.abs(c).toLocaleString('ko-KR', {minimumFractionDigits: dec, maximumFractionDigits: 2});
+    const pct = p != null && isFinite(p) ? ' (' + (p > 0 ? '+' : p < 0 ? '−' : '') + Math.abs(p).toFixed(2) + '%)' : '';
+    el.textContent = arrow + ' ' + abs + (r.chgUnit || '') + pct;
+  });
   function tip(box) {
     let t = box.querySelector('.kd-tip');
     if (!t) { t = document.createElement('div'); t.className = 'kd-tip'; t.hidden = true; box.appendChild(t); }
@@ -632,6 +666,46 @@ window.__kdLoad.then(() => {
   dash._runAll();
   let w = window.innerWidth; window.addEventListener('resize', () => { if (Math.abs(window.innerWidth - w) > 20) { w = window.innerWidth; dash._runAll(); } });
 });
+</script>
+<script>
+/* 코스피 실시간: /api/kospi (Netlify 함수)를 1분마다 읽어 '오늘의 시장' 코스피 칸을 갱신합니다. */
+(function () {
+  const badge = document.querySelector('.kd-live');
+  const timeEl = document.querySelector('.kd-live-time');
+  const fmt = (n) => Number(n).toLocaleString('ko-KR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  async function tick() {
+    if (document.hidden) return;
+    try {
+      const res = await fetch('/api/kospi', { cache: 'no-store' });
+      if (!res.ok) return;
+      const q = await res.json();
+      if (!q || !isFinite(q.price)) return;
+      const d = dash.data('latest');
+      if (d.status !== 'ok') return;
+      const row = d.data.find((x) => x.id === 'kospi');
+      if (!row) return;
+      const t = q.time ? new Date(q.time) : new Date();
+      const hhmm = t.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Seoul' });
+      const ymd = t.toLocaleDateString('sv-SE', { timeZone: 'Asia/Seoul' });
+      row.value = Number(q.price);
+      row.display = fmt(q.price);
+      row.chg = q.change;
+      row.chgPct = q.changePct;
+      row.chgUnit = '';
+      row.asof = q.open ? ymd + ' ' + hhmm + ' 기준' : ymd + ' 종가';
+      row.note = q.open ? '장중 1분마다 자동 갱신 · ' + q.source : '장 마감 · ' + q.source;
+      row.source = q.source;
+      dash._runAll();
+      if (badge) { badge.hidden = false; badge.classList.toggle('kd-live-on', !!q.open); }
+      if (timeEl) timeEl.textContent = q.open ? hhmm : '장 마감';
+    } catch (e) { /* 실시간 조회 실패 시 저장된 종가를 그대로 보여줍니다 */ }
+  }
+  window.__kdLoad.then(() => {
+    tick();
+    setInterval(tick, 60000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) tick(); });
+  });
+})();
 </script>
 </body>
 </html>
