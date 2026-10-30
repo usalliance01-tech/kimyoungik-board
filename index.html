@@ -14,9 +14,10 @@
 --cds-radius:10px;--cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:14px;--cds-gap-lg:20px;--cds-gap-xl:32px;--cds-pad-xs:4px;--cds-pad-sm:8px;--cds-pad-md:14px;--cds-pad-lg:20px;--cds-pad-xl:28px;
 --cds-font-weight-medium:600;--cds-dur-slow:.3s;--cds-ease-out:cubic-bezier(.2,.7,.2,1);--font-anthropic-sans:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color-scheme:light dark}
 @media (prefers-color-scheme: dark){:root{--color-fg:#ecebe6;--color-fg-muted:#a3a19a;--color-bg:#1a1a18;--color-panel:#232321;--color-border-line:#363632;--cds-chart-grid:#33332f;--cds-chart-axis:#4a4a45;--cds-chart-reference:#9b978d;--cds-chart-muted:#5f5d57;--cds-chart-status-critical:#e8705b;--cds-surface-popover:#2b2b28;--cds-border:#3d3d38;--cds-shadow-popover:0 6px 20px rgba(0,0,0,.4);--cds-text-secondary:#a3a19a}}
-html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
-#dash-root{max-width:1120px;margin:0 auto;padding:28px 20px 60px}
-@media (max-width:600px){#dash-root{padding:18px 16px 48px}}
+html,body{margin:0;background:#F2F4F6;color:#191F28}
+@media (prefers-color-scheme: dark){html,body{background:#101318;color:#EEF0F3}}
+#dash-root{max-width:1080px;margin:0 auto;padding:8px 0 24px}
+@media (max-width:600px){#dash-root{padding:0}}
 .kd-updated{font-size:.8rem;color:var(--color-fg-muted);margin-top:8px}
 </style>
 <script>
@@ -242,6 +243,140 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
 @keyframes kdFlashUp { 0% { background: color-mix(in srgb, var(--kd-up) 28%, transparent); } 100% { background: transparent; } }
 @keyframes kdFlashDown { 0% { background: color-mix(in srgb, var(--kd-down) 28%, transparent); } 100% { background: transparent; } }
 @media (prefers-reduced-motion: reduce) { #dash-root .kd-mkt-item .kd-mkt-label::before, #dash-root .kd-mkt-item .kd-mkt-val { animation: none !important; } }
+/* ===== 토스증권 디자인 원칙 적용 ===== */
+/* 토큰: 블루그레이 회색 4단계, 상승 빨강·하락 파랑, 강조색 최소화 */
+#dash-root .kd {
+  --tds-page: #F2F4F6; --tds-surface: #FFFFFF; --tds-sub: #F9FAFB; --tds-line: #E5E8EB;
+  --tds-text-1: #191F28; --tds-text-2: #4E5968; --tds-text-3: #8B95A1;
+  --color-fg: #191F28; --color-fg-muted: #6B7684; --color-bg: #F9FAFB; --color-panel: #FFFFFF; --color-border-line: #E5E8EB;
+  --kd-up: #F04452; --kd-down: #3182F6; --kd-bad: #F04452; --kd-warn: #E8890C; --kd-ok: #03B26C; --kd-neutral: #8B95A1;
+  --kd-view: #9A6700; --kd-view-bg: #FFF7E0;
+  --cds-chart-grid: #E5E8EB; --cds-chart-axis: #D1D6DB; --cds-chart-reference: #8B95A1; --cds-chart-muted: #B0B8C1; --cds-chart-status-critical: #F04452;
+  --cds-radius: 12px;
+  --cds-font-size-caption: 13px; --cds-font-size-body: 15px; --cds-font-size-heading: 22px; --cds-font-size-title: 20px;
+  background: var(--tds-page); color: var(--tds-text-1);
+  padding: 24px 20px 40px; border-radius: 24px; gap: 12px;
+  line-height: 1.5; letter-spacing: -0.01em;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #dash-root .kd {
+  --tds-page: #101318; --tds-surface: #191D24; --tds-sub: #22272F; --tds-line: #2C323B;
+  --tds-text-1: #EEF0F3; --tds-text-2: #B0B8C1; --tds-text-3: #7D8793;
+  --color-fg: #EEF0F3; --color-fg-muted: #9AA3AE; --color-bg: #22272F; --color-panel: #191D24; --color-border-line: #2C323B;
+  --kd-up: #FF5C68; --kd-down: #4D9BFF; --kd-bad: #FF5C68; --kd-warn: #FFB020; --kd-ok: #2ED68A;
+  --kd-view: #FFC93C; --kd-view-bg: rgba(255, 201, 60, .08);
+  --cds-chart-grid: #2C323B; --cds-chart-axis: #3A414B; --cds-chart-muted: #4E5968; --cds-chart-status-critical: #FF5C68;
+} }
+:root[data-theme="dark"] #dash-root .kd {
+  --tds-page: #101318; --tds-surface: #191D24; --tds-sub: #22272F; --tds-line: #2C323B;
+  --tds-text-1: #EEF0F3; --tds-text-2: #B0B8C1; --tds-text-3: #7D8793;
+  --color-fg: #EEF0F3; --color-fg-muted: #9AA3AE; --color-bg: #22272F; --color-panel: #191D24; --color-border-line: #2C323B;
+  --kd-up: #FF5C68; --kd-down: #4D9BFF; --kd-bad: #FF5C68; --kd-warn: #FFB020; --kd-ok: #2ED68A;
+  --kd-view: #FFC93C; --kd-view-bg: rgba(255, 201, 60, .08);
+  --cds-chart-grid: #2C323B; --cds-chart-axis: #3A414B; --cds-chart-muted: #4E5968; --cds-chart-status-critical: #FF5C68;
+}
+
+/* 머리말: 화면 타이틀 26px, 설명 15px 2차 텍스트 */
+#dash-root .kd-head { padding: 8px 4px 0; }
+#dash-root .kd-head h1 { font-size: 26px; line-height: 1.35; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 8px; }
+#dash-root .kd-head > p { font-size: 15px; color: var(--tds-text-2); line-height: 1.5; }
+#dash-root .kd-legend { font-size: 13px; color: var(--tds-text-3); margin-top: 8px; }
+
+/* 오늘의 시장: 흰 면 하나, 핵심 숫자 하나(코스피) */
+#dash-root .kd-mkt { background: var(--tds-surface); border: 0; border-radius: 20px; padding: 24px; margin-top: 20px; gap: 16px; }
+#dash-root .kd-mkt-head { font-size: 17px; font-weight: 700; }
+#dash-root .kd-mkt-head .kd-meta { font-size: 13px; font-weight: 500; color: var(--tds-text-3); }
+#dash-root .kd-mkt-grid { gap: 20px 16px; }
+#dash-root .kd-mkt-label { font-size: 13px; color: var(--tds-text-2); font-weight: 500; }
+#dash-root .kd-mkt-val { font-family: var(--kd-font); font-size: 20px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1.4; }
+#dash-root .kd-mkt-item:first-child .kd-mkt-val { font-size: 32px; letter-spacing: -0.03em; line-height: 1.3; }
+#dash-root .kd-mkt-chg { font-size: 13px; font-weight: 600; letter-spacing: 0; }
+#dash-root .kd-mkt-item:first-child .kd-mkt-chg { font-size: 15px; }
+#dash-root .kd-mkt-note, #dash-root .kd-mkt .kd-meta { font-size: 13px; color: var(--tds-text-3); }
+#dash-root .kd-live { font-size: 13px; }
+
+/* 교수님 판단 한 줄: 장식 줄 대신 옅은 바탕 */
+#dash-root .kd-signal { background: var(--kd-view-bg); border: 0; border-radius: 20px; padding: 20px 24px; margin-top: 12px; font-size: 15px; line-height: 1.6; }
+
+/* 섹션 이동 칩 */
+#dash-root .kd-nav { background: var(--tds-page); gap: 8px; padding: 8px 0; }
+#dash-root .kd-nav a { background: var(--tds-surface); border: 0; color: var(--tds-text-2); font-size: 14px; font-weight: 600; padding: 8px 14px; }
+#dash-root .kd-nav a:hover { color: var(--tds-text-1); }
+
+/* 섹션: 회색 바탕 위 흰 면, 그림자·줄 없이 면과 여백으로 구분 */
+#dash-root .kd-sec { background: var(--tds-surface); border: 0; border-radius: 20px; padding: 24px; gap: 16px; scroll-margin-top: 4rem; }
+#dash-root .kd-sec + .kd-sec { border-top: 0; padding-top: 24px; }
+#dash-root .kd-sec > h2 { background: none; color: var(--tds-text-1); padding: 0; border-radius: 0; font-size: 22px; line-height: 1.35; font-weight: 700; letter-spacing: -0.02em; }
+#dash-root .kd-num { display: none; }
+#dash-root .kd-sec > .kd-lead { font-size: 15px; color: var(--tds-text-2); margin-top: -8px; line-height: 1.5; }
+#dash-root .kd-foot { font-size: 13px; color: var(--tds-text-3); }
+
+/* 카드: 회색 면, 테두리·색 줄 없음 */
+#dash-root .kd-sec .kd-card { background: var(--tds-sub); border: 0; border-top: 0; border-radius: 16px; padding: 20px; box-shadow: none; }
+#dash-root .kd-grid, #dash-root .kd-tiles { gap: 8px; }
+#dash-root .kd-card h3 { font-size: 15px; font-weight: 600; color: var(--tds-text-1); }
+#dash-root .kd-big { font-family: var(--kd-font); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.35; }
+#dash-root .kd-meta { font-size: 13px; color: var(--tds-text-3); }
+#dash-root .kd-card .kd-note { font-size: 13px; color: var(--tds-text-2); line-height: 1.5; }
+#dash-root .kd-mean { font-size: 13px; color: var(--tds-text-1); border-top-color: var(--tds-line); line-height: 1.5; }
+
+/* 교수님 한마디: 줄로 나눈 목록 */
+#dash-root #sec-voices .kd-card { background: transparent; padding: 0; }
+#dash-root .kd-voices { gap: 0; }
+#dash-root .kd-voice { border-left: 0; padding: 20px 0; border-bottom: 1px solid var(--tds-line); gap: 6px; }
+#dash-root .kd-voice:first-child { padding-top: 4px; }
+#dash-root .kd-voice:last-child { border-bottom: 0; }
+#dash-root .kd-voice .kd-vdate { font-size: 13px; color: var(--tds-text-3); }
+#dash-root .kd-voice .kd-vtitle { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; }
+#dash-root .kd-voice .kd-vsum { font-size: 15px; line-height: 1.6; }
+#dash-root .kd-voice a { font-size: 13px; color: var(--tds-text-2); font-weight: 600; text-decoration: none; }
+
+/* 지표 사전 */
+#dash-root .kd-cx-legend { font-size: 13px; color: var(--tds-text-3); }
+#dash-root .kd-cx-title { font-size: 17px; }
+#dash-root .kd-core-card { background: var(--tds-sub); border: 0; border-left: 0; border-radius: 16px; padding: 16px; gap: 6px; }
+#dash-root .kd-core-card:hover { transform: none; box-shadow: none; background: var(--tds-line); }
+#dash-root .kd-core-sec { font-size: 13px; color: var(--tds-text-3); }
+#dash-root .kd-core-name { font-size: 15px; font-weight: 600; }
+#dash-root .kd-core-val { font-size: 20px; font-variant-numeric: tabular-nums; }
+#dash-root .kd-badge { font-size: 13px; padding: 2px 10px 2px 8px; }
+#dash-root .kd-cx-panel { background: var(--tds-sub); }
+#dash-root .kd-tools input { background: var(--tds-surface); border: 0; border-radius: 12px; font-size: 15px; padding: 10px 14px; }
+#dash-root .kd-chip { background: var(--tds-surface); border: 0; color: var(--tds-text-2); font-size: 14px; font-weight: 600; padding: 7px 14px; }
+#dash-root .kd-chip[aria-pressed="true"] { background: var(--tds-text-1); color: var(--tds-surface); }
+#dash-root .kd-cx-sec { background: var(--tds-sub); border-bottom: 1px solid var(--tds-line); padding: 10px 0 8px; }
+#dash-root .kd-cx-sec-name { font-size: 17px; }
+#dash-root .kd-cat-item { border-bottom-color: var(--tds-line); }
+#dash-root .kd-cat-name { font-size: 15px; font-weight: 600; }
+#dash-root .kd-cat-brief { font-size: 15px; color: var(--tds-text-2); margin: 0; }
+#dash-root .kd-stars { font-size: 13px; color: var(--kd-warn); }
+#dash-root .kd-cx-val { font-size: 13px; background: var(--tds-surface); border: 0; }
+#dash-root .kd-cat-fact { font-size: 13px; background: var(--tds-surface); border: 0; color: var(--tds-text-3); }
+#dash-root .kd-cat-fact b { color: var(--tds-text-2); font-weight: 600; }
+#dash-root .kd-cat-body { border-left-color: var(--tds-line); }
+#dash-root .kd-cat-k { font-size: 13px; color: var(--tds-text-3); }
+#dash-root .kd-cat-v { font-size: 15px; line-height: 1.6; }
+#dash-root .kd-cx-link { background: var(--tds-surface); border: 0; font-size: 13px; }
+
+/* 휴대폰: 좌우 20px, 같은 리듬 */
+@media (max-width: 640px) {
+  #dash-root .kd { padding: 20px 12px 32px; border-radius: 0; }
+  #dash-root .kd-head { padding: 4px 8px 0; }
+  #dash-root .kd-head h1 { font-size: 24px; }
+  #dash-root .kd-mkt, #dash-root .kd-sec { padding: 20px; border-radius: 20px; }
+  #dash-root .kd-mkt-grid { gap: 8px; }
+  #dash-root .kd-mkt-item:first-child { padding: 4px 0 16px; border-bottom: 1px solid var(--tds-line); }
+  #dash-root .kd-mkt-item:first-child .kd-mkt-val { font-size: 30px; }
+  #dash-root .kd-mkt-item:not(:first-child) { background: var(--tds-sub); border-radius: 14px; padding: 12px 14px; }
+  #dash-root .kd-mkt-item:not(:first-child) .kd-mkt-val { font-size: 18px; }
+  #dash-root .kd-mkt-item:not(:first-child) .kd-mkt-chg { font-size: 13px; }
+  #dash-root .kd-sec .kd-card { padding: 16px; }
+  #dash-root .kd-tiles .kd-card .kd-big { font-size: 20px; }
+  #dash-root .kd-signal { padding: 16px 20px; }
+  #dash-root .kd-cx-core { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #dash-root .kd-core-card { min-width: 0; }
+  #dash-root .kd-core-card .kd-badge { white-space: normal; line-height: 1.35; }
+}
+
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 </style>
@@ -249,8 +384,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
 <div class="kd">
   <header class="kd-head" id="top">
     <h1>김영익 교수님 데이터 보드</h1>
-    <p>교수님이 영상·인터뷰에서 판단 근거로 쓰는 지표를 한곳에 모은 팀원용 보드입니다. 수치는 공개 발언과 언론 보도에서 확인한 최신값이며, 각 수치 아래에 기준일을 표시했습니다.</p>
-    <div class="kd-legend"><i></i>노란 글씨는 교수님의 해석과 전망입니다</div>
+    <p>교수님이 판단 근거로 쓰는 지표와 최근 발언을 모았어요. 숫자마다 기준일과 출처를 함께 적었어요.</p>
+    <div class="kd-legend"><i></i>노란 글씨는 교수님의 해석과 전망이에요</div>
     <section class="kd-mkt" aria-label="오늘의 시장">
       <div class="kd-mkt-head">오늘의 시장 <span class="kd-meta kd-static-note">평일 장 마감 후 자동 갱신</span><span class="kd-live" hidden><i></i>실시간 갱신 중 <span class="kd-live-time"></span></span></div>
       <div class="kd-mkt-grid">
@@ -292,7 +427,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
       </div>
     </section>
     <div class="kd-signal">
-      지금 국면: 선행지수 순환변동치 <b data-draw="v" data-source="latest" data-field="display" data-where="id=cli">—</b> (<span data-draw="v" data-source="latest" data-field="asof" data-where="id=cli">—</span>)로 하락 전환. 교수님 권고 주식 비중은 <b data-draw="v" data-source="latest" data-field="display" data-where="id=weight">—</b>이며, 선행지수 상승 국면이면 이 비중을 늘립니다.
+      지금은 선행지수 순환변동치가 <b data-draw="v" data-source="latest" data-field="display" data-where="id=cli">—</b> (<span data-draw="v" data-source="latest" data-field="asof" data-where="id=cli">—</span>)로 내려가는 국면이에요. 교수님은 주식 비중을 <b data-draw="v" data-source="latest" data-field="display" data-where="id=weight">—</b> 안팎으로 낮추라고 해요. 선행지수가 다시 오르면 비중을 늘려요.
     </div>
   </header>
 
@@ -306,7 +441,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
 
   <section class="kd-sec" id="sec-temp">
     <h2><span class="kd-num">01</span>경기 레이더</h2>
-    <p class="kd-lead">교수님 판단의 출발점입니다. 선행지수 순환변동치가 오르면 주식을 늘리고, 꺾이면 줄입니다.</p>
+    <p class="kd-lead">교수님 판단의 출발점이에요. 선행지수가 오르면 주식을 늘리고, 꺾이면 줄여요.</p>
     <div class="kd-tiles">
       <div class="kd-card">
         <h3>선행지수 순환변동치</h3>
@@ -332,24 +467,24 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
     </div>
     <div class="kd-card">
       <h3>주식 비중 신호</h3>
-      <p class="kd-note">현재 권고 비중과 선행지수 상승 국면일 때의 비중(막대 끝 표시)을 비교합니다.</p>
+      <p class="kd-note">지금 권고 비중과, 선행지수가 오를 때의 비중(세로선)을 비교해요.</p>
       <div class="kd-chart" style="min-height:5rem" data-draw="weightbar" data-source="latest"></div>
     </div>
-    <p class="kd-foot">뉴스심리지수(3개월 이동평균)는 선행지수보다 약 다섯 달 앞서 움직이는 보조 신호로 쓰입니다. 7월 영상에서는 3월 이후 하락 중이라고 언급했습니다. 추이 차트는 자동 수집을 붙인 뒤 추가합니다.</p>
+    <p class="kd-foot">뉴스심리지수(3개월 평균)는 선행지수보다 약 다섯 달 먼저 움직이는 보조 신호예요. 교수님은 7월 영상에서 3월 이후 하락 중이라고 했어요.</p>
   </section>
 
   <section class="kd-sec" id="sec-value">
     <h2><span class="kd-num">02</span>코스피 적정성</h2>
-    <p class="kd-lead">중장기 지표(경제 규모·통화량 대비)와 단기 지표(수출·추세 대비)를 나눠 봅니다. 10월 영상 기준으로 중장기는 고평가, 단기는 저평가 영역입니다.</p>
+    <p class="kd-lead">경제 규모·통화량으로 보면 비싸고, 수출·추세로 보면 싼 구간이에요(10월 영상 기준).</p>
     <div class="kd-grid">
       <div class="kd-card">
         <h3>중장기: 장기 평균 대비 얼마나 높은가</h3>
-        <p class="kd-note">막대는 현재값, 세로선은 장기 평균입니다. 버핏지수는 2000년 이후, 시총/구 M2는 2005년 이후 평균.</p>
+        <p class="kd-note">막대는 지금 값, 세로선은 장기 평균이에요. 버핏지수는 2000년 이후, 시총/구 M2는 2005년 이후 평균이에요.</p>
         <div class="kd-chart kd-tall" data-draw="bullet" data-source="latest"></div>
       </div>
       <div class="kd-card">
         <h3>코스피 위치: 고점 · 현재 · 적정치</h3>
-        <p class="kd-note">교수님이 본 이번 사이클 고점, 최근 종가, 수출 기반 적정 코스피를 한 축에 놓았습니다.</p>
+        <p class="kd-note">교수님이 본 이번 사이클 고점, 최근 종가, 수출로 계산한 적정 코스피를 한 줄에 놓았어요.</p>
         <div class="kd-chart kd-tall" data-draw="ladder" data-source="latest"></div>
       </div>
     </div>
@@ -387,7 +522,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
 
   <section class="kd-sec" id="sec-macro">
     <h2><span class="kd-num">03</span>환율 · 금리 · 미국</h2>
-    <p class="kd-lead">교수님은 원화 강세(환율 중기 하락)와 내년 상반기 미국 경기 둔화를 함께 전망하고 있습니다.</p>
+    <p class="kd-lead">교수님은 원화가 강해지고(환율 하락), 내년 상반기 미국 경기가 둔화될 거라고 봐요.</p>
     <div class="kd-tiles">
       <div class="kd-card">
         <h3>원·달러 환율</h3>
@@ -439,12 +574,12 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
         <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=nfp">—</p>
       </div>
     </div>
-    <p class="kd-foot">원화 강세 근거 다섯 가지(9월 출연): 달러인덱스 하락, 중국의 위안화 강세 유도, 엔화 저평가, 한미 실질금리차, 대규모 경상흑자. 미국 쪽은 실업률 12개월 이동평균, 개인소비, 주식 신용융자 잔액도 함께 봅니다.</p>
+    <p class="kd-foot">원화 강세 근거 다섯 가지(9월 출연): 달러인덱스 하락, 위안화 강세 유도, 엔화 저평가, 한미 실질금리차, 대규모 경상흑자. 미국은 실업률 12개월 평균, 개인소비, 주식 신용융자 잔액도 함께 봐요.</p>
   </section>
 
   <section class="kd-sec" id="sec-voices">
     <h2><span class="kd-num">04</span>교수님 한마디</h2>
-    <p class="kd-lead">영상·출연·기고에서 밝힌 전망을 날짜순으로 정리했습니다. 요약은 보도 내용을 바탕으로 다시 쓴 것입니다.</p>
+    <p class="kd-lead">유튜브·방송·인터뷰에서 밝힌 전망을 최신순으로 모았어요. 요약은 영상과 보도를 바탕으로 다시 썼어요.</p>
     <div class="kd-card">
       <div class="kd-voices" data-draw="voices" data-source="voices"></div>
     </div>
@@ -452,14 +587,14 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
 
   <section class="kd-sec" id="sec-catalog">
     <h2><span class="kd-num">05</span>지표 사전</h2>
-    <p class="kd-lead">교수님이 판단에 쓰는 지표 전체를 분야별로 정리한 지표 사전입니다. 지표마다 중요도(★), 교수님의 현재 판단, 판단 기준, 다음 발표일을 한눈에 볼 수 있습니다.</p>
+    <p class="kd-lead">교수님이 쓰는 지표를 분야별로 정리했어요. 중요도(★)와 교수님의 현재 판단을 함께 볼 수 있어요.</p>
     <div class="kd-cx-legend">
       <span><i class="kd-dot kd-t-bad"></i>경계</span><span><i class="kd-dot kd-t-warn"></i>주의</span><span><i class="kd-dot kd-t-ok"></i>기회</span><span><i class="kd-dot kd-t-neutral"></i>중립</span>
-      <span class="kd-cx-legend-note">색 배지는 교수님의 현재 판단입니다</span>
+      <span class="kd-cx-legend-note">색 배지는 교수님의 현재 판단이에요</span>
     </div>
     <div class="kd-cx-head">
       <h3 class="kd-cx-title">★ 교수님 핵심 지표</h3>
-      <p class="kd-note">교수님이 영상마다 빠짐없이 짚는 10개 지표입니다. 누르면 아래 상세 설명으로 이동합니다.</p>
+      <p class="kd-note">교수님이 영상마다 짚는 10개 지표예요. 누르면 자세한 설명으로 이동해요.</p>
     </div>
     <div class="kd-cx-core" data-draw="catcore" data-source="catalog latest"></div>
     <div class="kd-card kd-cx-panel">
@@ -474,10 +609,10 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
         <button type="button" class="kd-chip" data-sec="미국" aria-pressed="false">미국</button>
         <button type="button" class="kd-chip kd-chip-core" data-core="1" aria-pressed="false">★ 핵심만</button>
       </div>
-      <p class="kd-note">지표를 누르면 자세한 뜻, 읽는 법, 원본 데이터 링크가 펼쳐집니다.</p>
+      <p class="kd-note">지표를 누르면 뜻, 읽는 법, 원본 데이터 링크가 펼쳐져요.</p>
       <div class="kd-cat" data-draw="catalog" data-source="catalog latest"></div>
     </div>
-    <p class="kd-foot">다음 발표 예정은 기관의 통상 일정 기준이라 실제 날짜와 하루이틀 다를 수 있습니다. 이 보드는 학습·제작 참고 자료이며 투자 추천이 아닙니다. 현재는 담당자가 확인한 값을 넣은 시안이고, KOSIS·ECOS·FRED·관세청 API를 연결하면 자동 갱신으로 바꿀 수 있습니다.</p>
+    <p class="kd-foot">다음 발표일은 기관의 통상 일정 기준이라 하루이틀 다를 수 있어요. 이 보드는 공개 발언과 발표 자료를 정리한 학습 자료이며, 투자 추천이 아니에요.</p>
   </section>
 </div>
 
@@ -607,7 +742,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
       const ti = document.createElement('div'); ti.className = 'kd-vtitle'; ti.textContent = v.title;
       const su = document.createElement('p'); su.className = 'kd-vsum'; su.textContent = v.summary;
       item.append(dt, ti, su);
-      if (/^https:\/\//.test(v.url || '')) { const a = document.createElement('a'); a.href = v.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = '보도 원문 보기 ↗'; item.append(a); }
+      if (/^https:\/\//.test(v.url || '')) { const a = document.createElement('a'); a.href = v.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = '원문 보기 ↗'; item.append(a); }
       el.append(item);
     });
   });
@@ -660,7 +795,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
         sum.append(facts);
         det.append(sum);
         const body = mk('div', 'kd-cat-body');
-        [['자세히 보면', r.meaning, ''], ['어떻게 읽나요', r.read, ''], ['교수님은 이렇게 씁니다', r.use, 'kd-view']].forEach(([k, v, c]) => { if (v) { body.append(mk('div', 'kd-cat-k', k), mk('p', 'kd-cat-v' + (c ? ' ' + c : ''), v)); } });
+        [['자세히 보면', r.meaning, ''], ['어떻게 읽나요', r.read, ''], ['교수님은 이렇게 써요', r.use, 'kd-view']].forEach(([k, v, c]) => { if (v) { body.append(mk('div', 'kd-cat-k', k), mk('p', 'kd-cat-v' + (c ? ' ' + c : ''), v)); } });
         const foot = mk('div', 'kd-cx-foot');
         if (/^https:\/\//.test(r.link || '')) { const l = mk('a', 'kd-cx-link', '원본 데이터 보기 ↗'); l.href = r.link; l.target = '_blank'; l.rel = 'noopener'; foot.append(l); }
         if (r.auto) foot.append(mk('span', 'kd-cx-auto', '수집 경로 · ' + r.auto));
@@ -668,7 +803,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
         det.append(body); box.append(det);
       });
     });
-    if (!rows.length) box.append(mk('p', 'kd-note', '조건에 맞는 지표가 없습니다.'));
+    if (!rows.length) box.append(mk('p', 'kd-note', '조건에 맞는 지표가 없어요.'));
   });
   document.querySelectorAll('#dash-root .kd-search').forEach((inp) => inp.addEventListener('input', () => { state.q = inp.value; dash.draw('catalog'); }));
   document.querySelectorAll('#dash-root .kd-chip').forEach((b) => b.addEventListener('click', () => {
