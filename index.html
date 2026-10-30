@@ -379,6 +379,13 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
 
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+
+#dash-root .kd-cx-impact { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; padding: 10px 12px; border-radius: 10px; background: var(--tds-surface); font-size: 14px; line-height: 1.55; color: var(--tds-text-1); }
+#dash-root .kd-cx-impact b { font-size: 12px; font-weight: 700; color: var(--tds-text-2); }
+#dash-root .kd-cx-watch { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 4px; }
+#dash-root .kd-cx-watch .kd-cat-k { margin: 0 4px 0 0; }
+#dash-root .kd-cx-watch-chip { font: inherit; font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--tds-line); background: transparent; color: var(--tds-text-2); cursor: pointer; }
+#dash-root .kd-cx-watch-chip:hover { color: var(--tds-text-1); border-color: var(--tds-text-2); }
 </style>
 
 <div class="kd">
@@ -768,6 +775,16 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
     });
   });
   const state = { q: '', sec: '', core: false };
+  const goTo = (name) => {
+    let el = document.getElementById(slug(name));
+    if (!el) {
+      state.q = ''; state.sec = ''; state.core = false;
+      document.querySelectorAll('#dash-root .kd-search').forEach((i) => { i.value = ''; });
+      document.querySelectorAll('#dash-root .kd-chip').forEach((o) => o.setAttribute('aria-pressed', String(!o.dataset.core && !o.dataset.sec)));
+      dash.draw('catalog'); el = document.getElementById(slug(name));
+    }
+    if (el) { el.open = true; el.scrollIntoView({behavior: 'smooth', block: 'center'}); }
+  };
   dash.draw('catalog', (box) => {
     box.replaceChildren();
     const d = dash.data('catalog'); const lat = dash.data('latest');
@@ -789,12 +806,19 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
         const row = mk('div', 'kd-cx-row'); row.append(badge(r));
         if (r.rule) { const ru = mk('span', 'kd-cx-rule kd-view'); ru.append(mk('b', null, '판단 기준 '), document.createTextNode(r.rule)); row.append(ru); }
         sum.append(row);
+        if (r.impact) { const im = mk('div', 'kd-cx-impact'); im.append(mk('b', null, '국내 투자자에겐'), mk('span', null, r.impact)); sum.append(im); }
         const last = x ? x.asof : r.last;
         const facts = mk('div', 'kd-cat-facts');
         [['출처', r.source], ['발표', r.cycle], ['마지막 반영', last], ['다음 발표', r.next]].forEach(([k, v]) => { if (v) { const f = mk('span', 'kd-cat-fact'); f.append(mk('b', null, k), document.createTextNode(' ' + v)); facts.append(f); } });
         sum.append(facts);
         det.append(sum);
         const body = mk('div', 'kd-cat-body');
+        if (r.check) body.append(mk('div', 'kd-cat-k', '그래서 뭘 보나요'), mk('p', 'kd-cat-v', r.check));
+        if (r.watch && r.watch.length) {
+          const wl = mk('div', 'kd-cx-watch'); wl.append(mk('span', 'kd-cat-k', '같이 볼 지표'));
+          r.watch.forEach((n) => { const b = mk('button', 'kd-cx-watch-chip', n.replace(/\s*\(.*\)\s*/, '') + ' →'); b.type = 'button'; b.addEventListener('click', () => goTo(n)); wl.append(b); });
+          body.append(wl);
+        }
         [['자세히 보면', r.meaning, ''], ['어떻게 읽나요', r.read, ''], ['교수님은 이렇게 써요', r.use, 'kd-view']].forEach(([k, v, c]) => { if (v) { body.append(mk('div', 'kd-cat-k', k), mk('p', 'kd-cat-v' + (c ? ' ' + c : ''), v)); } });
         const foot = mk('div', 'kd-cx-foot');
         if (/^https:\/\//.test(r.link || '')) { const l = mk('a', 'kd-cx-link', '원본 데이터 보기 ↗'); l.href = r.link; l.target = '_blank'; l.rel = 'noopener'; foot.append(l); }
