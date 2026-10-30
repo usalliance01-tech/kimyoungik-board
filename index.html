@@ -2,11 +2,29 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
+<script>
+/* 대시보드 런타임 대체: data/*.json 을 읽어 그리기 함수에 넘깁니다. */
+(function(){
+  const store = {}; const draws = {}; const ids = ['latest','voices','catalog'];
+  ids.forEach(id => store[id] = {status:'loading', data:[]});
+  const run = (name) => { const fn = draws[name]; if (!fn) return; document.querySelectorAll('[data-draw="'+name+'"]').forEach(el => { try { fn(el); } catch(e){ if (window.d3 || !/d3/.test(String(e))) console.error(name, e); } }); };
+  window.dash = {
+    data: (id) => store[id] || {status:'missing', data:[]},
+    draw: (name, fn) => { if (fn) draws[name] = fn; run(name); },
+    colors: ['#2f6fdb','#d0533f','#2f9e6f','#c48a1a','#7a5cc7','#1b98a8','#b8487a','#6b7a89'],
+    onData: (fn) => fn(),
+    _runAll: () => Object.keys(draws).forEach(run)
+  };
+  /* 데이터가 오면 바로 그리고, 차트용 d3가 늦게 오면 그때 한 번 더 그립니다 */
+  window.__kdD3 = () => { if (window.__kdDataDone) window.dash._runAll(); };
+  window.__kdLoad = Promise.all([].concat(ids.map(id => fetch('data/'+id+'.json',{cache:'no-cache'}).then(r => r.json()).then(d => { store[id] = {status:'ok', data:d}; }).catch(() => { store[id] = {status:'error', data:[]}; })))).then(() => { window.__kdDataDone = true; });
+})();
+</script>
+<link rel="preload" href="fonts/kd-core.woff2" as="font" type="font/woff2" crossorigin>
+<script src="js/d3.min.js" async onload="window.__kdD3()"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>김영익 교수님 데이터 보드</title>
 <meta name="description" content="김영익 교수님이 판단 근거로 쓰는 경기·밸류에이션·환율·금리 지표와 발언을 한 화면에 모은 보드">
-<link rel="preload" href="fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
-<script src="js/d3.min.js"></script>
 <style>
 :root{--color-fg:#1b1b19;--color-fg-muted:#6b6962;--color-bg:#f7f6f2;--color-panel:#ffffff;--color-border-line:#e5e2da;--color-ok:#2f7d4f;--color-warn:#a86a12;--color-bad:#c0392b;
 --cds-chart-grid:#ebe8e1;--cds-chart-axis:#cdc8bd;--cds-chart-reference:#8a867c;--cds-chart-muted:#b8b4aa;--cds-chart-status-critical:#d0533f;
@@ -20,27 +38,12 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
 @media (max-width:600px){#dash-root{padding:0}}
 .kd-updated{font-size:.8rem;color:var(--color-fg-muted);margin-top:8px}
 </style>
-<script>
-/* 대시보드 런타임 대체: data/*.json 을 읽어 그리기 함수에 넘깁니다. */
-(function(){
-  const store = {}; const draws = {}; const ids = ['latest','voices','catalog'];
-  ids.forEach(id => store[id] = {status:'loading', data:[]});
-  const run = (name) => { const fn = draws[name]; if (!fn) return; document.querySelectorAll('[data-draw="'+name+'"]').forEach(el => { try { fn(el); } catch(e){ console.error(name, e); } }); };
-  window.dash = {
-    data: (id) => store[id] || {status:'missing', data:[]},
-    draw: (name, fn) => { if (fn) draws[name] = fn; run(name); },
-    colors: ['#2f6fdb','#d0533f','#2f9e6f','#c48a1a','#7a5cc7','#1b98a8','#b8487a','#6b7a89'],
-    onData: (fn) => fn(),
-    _runAll: () => Object.keys(draws).forEach(run)
-  };
-  window.__kdLoad = Promise.all(ids.map(id => fetch('data/'+id+'.json?v='+Date.now()).then(r => r.json()).then(d => { store[id] = {status:'ok', data:d}; }).catch(() => { store[id] = {status:'error', data:[]}; })));
-})();
-</script>
 </head>
 <body>
 <div id="dash-root">
 <style>
-@font-face { font-family: "KD Pretendard"; src: url("fonts/PretendardVariable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "KD Pretendard"; src: url("fonts/kd-ext.woff2") format("woff2"); font-weight: 100 900; font-display: swap; unicode-range: U+AC00-D7A3; }
+@font-face { font-family: "KD Pretendard"; src: url("fonts/kd-core.woff2") format("woff2"); font-weight: 100 900; font-display: swap; unicode-range: U+0020-00FF, U+2010-205E, U+2190-21FF, U+2212, U+25A0-26FF, U+3000-303F, U+3131-318E, U+AC00-D7A3, U+FF01-FF5E; }
 #dash-root .kd { --kd-font: "KD Pretendard", "Pretendard Variable", Pretendard, var(--font-anthropic-sans), sans-serif; --cds-font-size-caption: 0.875rem; --cds-font-size-body: 1.03rem; --cds-font-size-heading: 1.3rem; --cds-font-size-title: 2rem; letter-spacing: -0.01em; word-break: keep-all; }
 #dash-root .kd svg text { font-family: var(--kd-font); }
 #dash-root .kd { font-family: var(--kd-font); color: var(--color-fg); display: flex; flex-direction: column; gap: var(--cds-gap-xl); }
