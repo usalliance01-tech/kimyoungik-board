@@ -734,6 +734,12 @@ html, body { background: #F4F6FA; }
       </div>
     </div>
     <div class="kd-card">
+      <h3>선행지수 순환변동치 흐름</h3>
+      <p class="kd-note">최근 13개월 흐름이에요. 점선(100)은 장기 추세예요. 숫자의 높낮이보다 오르는지 꺾이는지, 방향이 중요해요.</p>
+      <div class="kd-chart" data-draw="cliline" data-source="latest"></div>
+      <p class="kd-meta">출처: 국가데이터처 산업활동동향</p>
+    </div>
+    <div class="kd-card">
       <h3>주식 비중 신호</h3>
       <p class="kd-note">지금 권고 비중과, 선행지수가 오를 때의 비중(세로선)을 비교해요.</p>
       <div class="kd-chart" style="min-height:5rem" data-draw="weightbar" data-source="latest"></div>
@@ -784,6 +790,13 @@ html, body { background: #F4F6FA; }
         <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=hp_gap">—</div>
         <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=hp_gap">—</p>
         <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=hp_gap">—</p>
+      </div>
+      <div class="kd-card">
+        <h3>일평균 수출</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=export_now">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=export_now">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=export_now">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=export_now">—</p>
       </div>
       <div class="kd-card">
         <h3>반도체 수출 비중</h3>
@@ -986,6 +999,70 @@ html, body { background: #F4F6FA; }
     const lbl = `상승 국면 ${r.avg}%`;
     const lw = measure(svg, lbl);
     svg.append('text').attr('x', Math.max(0, Math.min(x(r.avg) - lw / 2, W - lw))).attr('y', th).style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg-muted)').text(lbl);
+  });
+
+  dash.draw('cliline', (el) => {
+    el.replaceChildren();
+    const r = rowOf('cli');
+    const hist = r && Array.isArray(r.hist) ? r.hist : [];
+    if (hist.length < 2) { el.textContent = '—'; return; }
+    const tt = tip(el);
+    const W = el.clientWidth || 320;
+    const svg = d3.select(el).append('svg').attr('width', '100%');
+    const th = textH(svg);
+    const ym = (m) => { const p = String(m).split('-'); return { y: p[0], m: Number(p[1]) }; };
+    const short = (m) => { const q = ym(m); return q.y.slice(2) + '.' + String(q.m).padStart(2, '0'); };
+    const yw = measure(svg, '105') + 10;
+    const padR = Math.ceil(measure(svg, '26.09') / 2) + 4;
+    /* 범례: 좁은 화면·큰 글씨에서 한 줄에 안 들어가면 두 줄로 나눕니다 */
+    const pkI = hist.findIndex((d) => d.m === r.peak), lastI = hist.length - 1;
+    const legend = [];
+    if (pkI >= 0) legend.push({ dot: 'var(--cds-chart-status-critical)', a: ym(hist[pkI].m).m + '월 ' + hist[pkI].v, b: '교수님이 본 정점', color: 'var(--kd-view)' });
+    if (lastI !== pkI) legend.push({ dot: 'var(--kd-accent)', a: ym(hist[lastI].m).m + '월 ' + hist[lastI].v, b: '최근', color: 'var(--color-fg)' });
+    legend.forEach((l) => { l.lines = (measure(svg, l.a + ' · ' + l.b) * 1.08 + 20 > W) ? [l.a + ' ·', l.b] : [l.a + ' · ' + l.b]; });
+    const nLines = Math.max(1, legend.reduce((n, l) => n + l.lines.length, 0));
+    const top = th * nLines + 6 * (nLines - 1) + 18, plotH = 150, bottom = th + 16, H = top + plotH + bottom;
+    svg.attr('viewBox', `0 0 ${W} ${H}`);
+    const vals = hist.map((d) => d.v);
+    const lo = Math.floor(Math.min(100, d3.min(vals)) - 0.4), hi = Math.ceil(d3.max(vals) + 0.3);
+    const x = d3.scalePoint(hist.map((d) => d.m), [yw + 8, W - padR]);
+    const y = d3.scaleLinear([lo, hi], [top + plotH, top]);
+    const cap = (s) => s.style('font-size', 'var(--cds-font-size-caption)').style('font-variant-numeric', 'tabular-nums');
+    y.ticks(4).forEach((t) => {
+      svg.append('line').attr('x1', yw).attr('x2', W).attr('y1', y(t)).attr('y2', y(t)).style('stroke', 'var(--cds-chart-grid)');
+      cap(svg.append('text').attr('x', 0).attr('y', y(t) + th * 0.35)).style('fill', 'var(--color-fg-muted)').text(t);
+    });
+    svg.append('line').attr('x1', yw).attr('x2', W).attr('y1', y(100)).attr('y2', y(100)).style('stroke', 'var(--cds-chart-reference)').style('stroke-width', 1.5).style('stroke-dasharray', '5 4');
+    cap(svg.append('text').attr('x', W - 2).attr('y', y(100) - 8).attr('text-anchor', 'end')).style('fill', 'var(--color-fg-muted)').text('장기 추세 100');
+    const last = hist.length - 1;
+    const lw = measure(svg, '26.09') + 14;
+    let step = 3; while (step < last && x.step() * step < lw) step++;
+    hist.forEach((d, i) => {
+      if ((last - i) % step !== 0) return;
+      cap(svg.append('text').attr('x', i === last ? W - 2 : x(d.m)).attr('y', top + plotH + th + 10).attr('text-anchor', i === last ? 'end' : 'middle')).style('fill', 'var(--color-fg-muted)').text(short(d.m));
+    });
+    svg.append('path').datum(hist).attr('d', d3.line().x((d) => x(d.m)).y((d) => y(d.v)))
+      .style('fill', 'none').style('stroke', 'var(--kd-accent)').style('stroke-width', 3).style('stroke-linejoin', 'round').style('stroke-linecap', 'round');
+    const pk = hist.findIndex((d) => d.m === r.peak);
+    hist.forEach((d, i) => {
+      const big = i === pk || i === last;
+      svg.append('circle').attr('cx', x(d.m)).attr('cy', y(d.v)).attr('r', big ? 6 : 3.5)
+        .style('fill', i === pk ? 'var(--cds-chart-status-critical)' : 'var(--kd-accent)').style('stroke', '#fff').style('stroke-width', 2);
+    });
+    let row = 1;
+    legend.forEach((l) => {
+      l.lines.forEach((txt, k) => {
+        const yy = th * row + 6 * (row - 1);
+        if (k === 0) svg.append('circle').attr('cx', 6).attr('cy', yy - th * 0.35).attr('r', 5).style('fill', l.dot);
+        cap(svg.append('text').attr('x', 18).attr('y', yy)).style('fill', l.color).style('font-weight', 700).text(txt);
+        row++;
+      });
+    });
+    hist.forEach((d) => {
+      svg.append('circle').attr('cx', x(d.m)).attr('cy', y(d.v)).attr('r', 14).style('fill', 'transparent')
+        .on('mousemove', (ev) => { const q = ym(d.m); tt.show(ev, q.y + '년 ' + q.m + '월', String(d.v)); })
+        .on('mouseleave', () => tt.hide());
+    });
   });
 
   dash.draw('bullet', (el) => {
