@@ -30,10 +30,10 @@
 --cds-chart-grid:#ebe8e1;--cds-chart-axis:#cdc8bd;--cds-chart-reference:#8a867c;--cds-chart-muted:#b8b4aa;--cds-chart-status-critical:#d0533f;
 --cds-surface-popover:#ffffff;--cds-border:#dedad1;--cds-shadow-popover:0 6px 20px rgba(0,0,0,.08);--cds-text-secondary:#6b6962;
 --cds-radius:10px;--cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:14px;--cds-gap-lg:20px;--cds-gap-xl:32px;--cds-pad-xs:4px;--cds-pad-sm:8px;--cds-pad-md:14px;--cds-pad-lg:20px;--cds-pad-xl:28px;
---cds-font-weight-medium:600;--cds-dur-slow:.3s;--cds-ease-out:cubic-bezier(.2,.7,.2,1);--font-anthropic-sans:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color-scheme:light dark}
-@media (prefers-color-scheme: dark){:root{--color-fg:#ecebe6;--color-fg-muted:#a3a19a;--color-bg:#1a1a18;--color-panel:#232321;--color-border-line:#363632;--cds-chart-grid:#33332f;--cds-chart-axis:#4a4a45;--cds-chart-reference:#9b978d;--cds-chart-muted:#5f5d57;--cds-chart-status-critical:#e8705b;--cds-surface-popover:#2b2b28;--cds-border:#3d3d38;--cds-shadow-popover:0 6px 20px rgba(0,0,0,.4);--cds-text-secondary:#a3a19a}}
+--cds-font-weight-medium:600;--cds-dur-slow:.3s;--cds-ease-out:cubic-bezier(.2,.7,.2,1);--font-anthropic-sans:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color-scheme:light}
+
 html,body{margin:0;background:#F2F4F6;color:#191F28}
-@media (prefers-color-scheme: dark){html,body{background:#101318;color:#EEF0F3}}
+
 #dash-root{max-width:1080px;margin:0 auto;padding:8px 0 24px}
 @media (max-width:600px){#dash-root{padding:0}}
 .kd-updated{font-size:.8rem;color:var(--color-fg-muted);margin-top:8px}
@@ -113,8 +113,8 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
 @media (max-width: 40rem) { #dash-root .kd-hide-sm { display: none; } }
 /* 섹션 구분 (무채색) + 교수님 뷰 색 */
 #dash-root .kd { --kd-view: #9a6700; }
-@media (prefers-color-scheme: dark) { #dash-root .kd { --kd-view: #f5c84b; } }
-:root[data-theme="dark"] #dash-root .kd { --kd-view: #f5c84b; }
+
+
 :root[data-theme="light"] #dash-root .kd { --kd-view: #9a6700; }
 #dash-root .kd-sec > h2 { display: flex; align-items: center; gap: var(--cds-gap-sm); }
 #dash-root .kd-num { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 2rem; padding: 0 6px; border-radius: 999px; border: 1px solid var(--color-border-line); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); font-weight: 700; letter-spacing: 0; }
@@ -155,8 +155,8 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
 }
 /* 섹션 헤더 막대 */
 #dash-root .kd { --kd-bar: #22211e; --kd-bar-fg: #ffffff; }
-@media (prefers-color-scheme: dark) { #dash-root .kd { --kd-bar: #3a3935; --kd-bar-fg: #ffffff; } }
-:root[data-theme="dark"] #dash-root .kd { --kd-bar: #3a3935; }
+
+
 :root[data-theme="light"] #dash-root .kd { --kd-bar: #22211e; }
 #dash-root .kd-sec > h2 { background: var(--kd-bar); color: var(--kd-bar-fg); padding: var(--cds-pad-sm) var(--cds-pad-md); border-radius: var(--cds-radius); }
 #dash-root .kd-sec > h2 .kd-num { border-color: rgba(255,255,255,.35); color: rgba(255,255,255,.85); }
@@ -220,8 +220,8 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
 }
 /* 등락 · 실시간 */
 #dash-root .kd { --kd-up: #d0533f; --kd-down: #2f6fdb; }
-@media (prefers-color-scheme: dark) { #dash-root .kd { --kd-up: #ff7b69; --kd-down: #6ea2ff; } }
-:root[data-theme="dark"] #dash-root .kd { --kd-up: #ff7b69; --kd-down: #6ea2ff; }
+
+
 :root[data-theme="light"] #dash-root .kd { --kd-up: #d0533f; --kd-down: #2f6fdb; }
 #dash-root .kd-mkt-chg { font-size: 0.95rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
 #dash-root .kd-mkt-item:first-child .kd-mkt-chg { font-size: 1.1rem; }
@@ -261,22 +261,8 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
   padding: 24px 20px 40px; border-radius: 24px; gap: 12px;
   line-height: 1.5; letter-spacing: -0.01em;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #dash-root .kd {
-  --tds-page: #101318; --tds-surface: #191D24; --tds-sub: #22272F; --tds-line: #2C323B;
-  --tds-text-1: #EEF0F3; --tds-text-2: #B0B8C1; --tds-text-3: #7D8793;
-  --color-fg: #EEF0F3; --color-fg-muted: #9AA3AE; --color-bg: #22272F; --color-panel: #191D24; --color-border-line: #2C323B;
-  --kd-up: #FF5C68; --kd-down: #4D9BFF; --kd-bad: #FF5C68; --kd-warn: #FFB020; --kd-ok: #2ED68A;
-  --kd-view: #FFC93C; --kd-view-bg: rgba(255, 201, 60, .08);
-  --cds-chart-grid: #2C323B; --cds-chart-axis: #3A414B; --cds-chart-muted: #4E5968; --cds-chart-status-critical: #FF5C68;
-} }
-:root[data-theme="dark"] #dash-root .kd {
-  --tds-page: #101318; --tds-surface: #191D24; --tds-sub: #22272F; --tds-line: #2C323B;
-  --tds-text-1: #EEF0F3; --tds-text-2: #B0B8C1; --tds-text-3: #7D8793;
-  --color-fg: #EEF0F3; --color-fg-muted: #9AA3AE; --color-bg: #22272F; --color-panel: #191D24; --color-border-line: #2C323B;
-  --kd-up: #FF5C68; --kd-down: #4D9BFF; --kd-bad: #FF5C68; --kd-warn: #FFB020; --kd-ok: #2ED68A;
-  --kd-view: #FFC93C; --kd-view-bg: rgba(255, 201, 60, .08);
-  --cds-chart-grid: #2C323B; --cds-chart-axis: #3A414B; --cds-chart-muted: #4E5968; --cds-chart-status-critical: #FF5C68;
-}
+
+
 
 /* 머리말: 화면 타이틀 26px, 설명 15px 2차 텍스트 */
 #dash-root .kd-head { padding: 8px 4px 0; }
@@ -389,13 +375,284 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
 #dash-root .kd-cx-watch .kd-cat-k { margin: 0 4px 0 0; }
 #dash-root .kd-cx-watch-chip { font: inherit; font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--tds-line); background: transparent; color: var(--tds-text-2); cursor: pointer; }
 #dash-root .kd-cx-watch-chip:hover { color: var(--tds-text-1); border-color: var(--tds-text-2); }
+
+/* ===== 가독성 개선: 밝은 화면 · 큰 글씨 · 휴대폰 우선 ===== */
+html, body { background: #F5F7FA; color: #111827; }
+#dash-root .kd {
+  --fs: 1;
+  --tds-page: #F5F7FA; --tds-surface: #FFFFFF; --tds-sub: #F6F8FB; --tds-line: #E2E7EE;
+  --tds-text-1: #111827; --tds-text-2: #374151; --tds-text-3: #4B5563;
+  --color-fg: #111827; --color-fg-muted: #4B5563; --color-bg: #F6F8FB; --color-panel: #FFFFFF; --color-border-line: #E2E7EE;
+  --kd-up: #E0313E; --kd-down: #1C64E8; --kd-bad: #E0313E; --kd-warn: #C26700; --kd-ok: #0A8A57; --kd-neutral: #6B7280;
+  --kd-view: #8A5800; --kd-view-bg: #FFF6D8; --kd-accent: #2F6FEB; --kd-accent-bg: #EEF4FF;
+  --cds-chart-grid: #E8ECF2; --cds-chart-axis: #C9D1DC; --cds-chart-reference: #4B5563; --cds-chart-muted: #9AA4B2; --cds-chart-status-critical: #E0313E;
+  --cds-font-size-caption: calc(15px * var(--fs)); --cds-font-size-body: calc(17px * var(--fs));
+  --cds-font-size-heading: calc(24px * var(--fs)); --cds-font-size-title: calc(24px * var(--fs));
+  background: var(--tds-page); color: var(--tds-text-1); line-height: 1.65; gap: 16px; letter-spacing: -0.005em;
+}
+/* 머리말 */
+#dash-root .kd-head h1 { font-size: calc(30px * var(--fs)); line-height: 1.3; }
+#dash-root .kd-head > p { font-size: calc(17px * var(--fs)); color: var(--tds-text-2); line-height: 1.65; }
+#dash-root .kd-legend { font-size: calc(15px * var(--fs)); color: var(--tds-text-2); }
+#dash-root .kd-legend i { width: 14px; height: 14px; background: #F5B400; }
+#dash-root .kd-fs { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 14px; font-size: calc(15px * var(--fs)); color: var(--tds-text-2); font-weight: 600; }
+#dash-root .kd-fs button { font: inherit; font-weight: 700; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--tds-line); background: #fff; color: var(--tds-text-2); cursor: pointer; }
+#dash-root .kd-fs button[aria-pressed="true"] { background: var(--kd-accent); border-color: var(--kd-accent); color: #fff; }
+/* 오늘의 시장 */
+#dash-root .kd-mkt { background: linear-gradient(180deg, var(--kd-accent-bg) 0%, #FFFFFF 140px); box-shadow: 0 2px 10px rgba(17, 24, 39, .06); }
+#dash-root .kd-mkt-head { font-size: calc(20px * var(--fs)); }
+#dash-root .kd-mkt-head .kd-meta { font-size: calc(14px * var(--fs)); color: var(--tds-text-3); }
+#dash-root .kd-mkt-label { font-size: calc(16px * var(--fs)); color: var(--tds-text-2); font-weight: 700; }
+#dash-root .kd-mkt-val { font-size: calc(24px * var(--fs)); }
+#dash-root .kd-mkt-item:first-child .kd-mkt-val { font-size: calc(40px * var(--fs)); }
+#dash-root .kd-mkt-chg { font-size: calc(16px * var(--fs)); font-weight: 700; }
+#dash-root .kd-mkt-item:first-child .kd-mkt-chg { font-size: calc(19px * var(--fs)); }
+#dash-root .kd-mkt-note, #dash-root .kd-mkt .kd-meta { font-size: calc(15px * var(--fs)); color: var(--tds-text-3); line-height: 1.6; }
+/* 교수님 판단 한 줄 */
+#dash-root .kd-signal { font-size: calc(18px * var(--fs)); line-height: 1.7; color: #5C3D00; border-left: 6px solid #F5B400; border-radius: 16px; }
+#dash-root .kd-signal b { color: #5C3D00; font-weight: 800; }
+/* 섹션 이동 */
+#dash-root .kd-nav { gap: 8px; padding: 10px 0; box-shadow: 0 6px 8px -8px rgba(17, 24, 39, .15); }
+#dash-root .kd-nav a { font-size: calc(16px * var(--fs)); font-weight: 700; color: var(--tds-text-1); min-height: 44px; display: inline-flex; align-items: center; padding: 0 18px; border: 1.5px solid var(--tds-line); }
+#dash-root .kd-nav a:hover, #dash-root .kd-nav a:focus-visible { border-color: var(--kd-accent); color: var(--kd-accent); }
+/* 섹션 */
+#dash-root .kd-sec { box-shadow: 0 2px 10px rgba(17, 24, 39, .06); scroll-margin-top: 76px; }
+#dash-root .kd-sec > h2 { font-size: calc(24px * var(--fs)); gap: 10px; }
+#dash-root .kd-sec > h2::before { content: ""; width: 6px; height: 1.1em; border-radius: 3px; background: var(--kd-accent); flex: none; }
+#dash-root .kd-sec > .kd-lead { font-size: calc(17px * var(--fs)); color: var(--tds-text-2); margin-top: -4px; line-height: 1.65; }
+#dash-root .kd-foot { font-size: calc(15px * var(--fs)); color: var(--tds-text-3); line-height: 1.7; }
+/* 카드 */
+#dash-root .kd-sec .kd-card { background: var(--tds-sub); border: 1px solid var(--tds-line); }
+#dash-root .kd-card h3 { font-size: calc(18px * var(--fs)); font-weight: 700; }
+#dash-root .kd-big { font-size: calc(30px * var(--fs)); font-weight: 800; }
+#dash-root .kd-meta { font-size: calc(15px * var(--fs)); color: var(--tds-text-3); }
+#dash-root .kd-card .kd-note { font-size: calc(16px * var(--fs)); color: var(--tds-text-2); line-height: 1.65; }
+#dash-root .kd-mean { font-size: calc(16px * var(--fs)); line-height: 1.65; }
+#dash-root .kd-chart { min-height: 7rem; }
+#dash-root .kd-tip { font-size: calc(15px * var(--fs)); }
+/* 교수님 한마디 */
+#dash-root .kd-voice { padding: 22px 0; gap: 8px; }
+#dash-root .kd-voice .kd-vdate { font-size: calc(15px * var(--fs)); color: var(--tds-text-3); font-weight: 600; }
+#dash-root .kd-voice .kd-vtitle { font-size: calc(19px * var(--fs)); line-height: 1.45; }
+#dash-root .kd-voice .kd-vsum { font-size: calc(17px * var(--fs)); line-height: 1.75; }
+#dash-root .kd-voice a { font-size: calc(15px * var(--fs)); color: var(--kd-accent); min-height: 44px; display: inline-flex; align-items: center; align-self: flex-start; }
+#dash-root #sec-voices .kd-card { background: transparent; border: 0; padding: 0; }
+#dash-root .kd-voice .kd-vsum { color: #6B4400; }
+#dash-root .kd-mkt-label { white-space: nowrap; }
+/* 보조 신호 카드 (뉴스심리지수) */
+#dash-root .kd-aux { gap: 8px; }
+#dash-root .kd-aux-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+#dash-root .kd-aux-tag { font-size: calc(14px * var(--fs)); font-weight: 700; color: var(--kd-accent); background: var(--kd-accent-bg); border-radius: 999px; padding: 3px 12px; }
+#dash-root .kd-aux-status { margin: 0; font-size: calc(17px * var(--fs)); font-weight: 700; line-height: 1.5; }
+#dash-root .kd-aux-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+#dash-root .kd-aux-btn { font: inherit; font-size: calc(15px * var(--fs)); font-weight: 700; min-height: 44px; display: inline-flex; align-items: center; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--tds-line); background: #fff; color: var(--tds-text-1); text-decoration: none; cursor: pointer; }
+#dash-root .kd-aux-btn:hover { border-color: var(--kd-accent); color: var(--kd-accent); }
+/* 서재 */
+#dash-root .kd-lib { display: flex; flex-direction: column; gap: 14px; }
+#dash-root .kd-shelf { background: #FBF7F0; border: 1px solid #EFE4D2; border-radius: 18px; padding: 0 16px 6px; }
+#dash-root .kd-shelf-head { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; min-height: 60px; }
+#dash-root .kd-shelf-head::-webkit-details-marker { display: none; }
+#dash-root .kd-shelf-name { font-size: calc(19px * var(--fs)); font-weight: 800; color: #4A3318; }
+#dash-root .kd-shelf-count { font-size: calc(15px * var(--fs)); font-weight: 700; color: #8A6A44; background: #F3E8D6; border-radius: 999px; padding: 2px 10px; }
+#dash-root .kd-shelf-head::after { content: "펼치기 ▾"; margin-left: auto; font-size: calc(15px * var(--fs)); font-weight: 700; color: #8A6A44; }
+#dash-root .kd-shelf[open] .kd-shelf-head::after { content: "접기 ▴"; }
+#dash-root .kd-books { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 12px; padding: 4px 0 0; }
+#dash-root .kd-shelf-board { height: 10px; margin: 10px -8px 8px; border-radius: 4px; background: linear-gradient(180deg, #E3CBA4, #CFB083); box-shadow: 0 3px 4px -2px rgba(90, 60, 20, .25); }
+#dash-root .kd-book { font: inherit; text-align: left; cursor: pointer; position: relative; display: flex; flex-direction: column; gap: 8px; min-height: 150px; padding: 14px 14px 14px 24px; border-radius: 6px 12px 12px 6px; border: 1px solid #E6DCCB; background: #FFFFFF; color: var(--tds-text-1); box-shadow: 0 2px 6px rgba(80, 55, 20, .08); transition: transform .15s, box-shadow .15s; }
+#dash-root .kd-book::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; border-radius: 6px 0 0 6px; background: var(--spine); }
+#dash-root .kd-book-yt { --spine: #2F6FEB; }
+#dash-root .kd-book-ext { --spine: #0A8A57; }
+#dash-root .kd-book:hover, #dash-root .kd-book:focus-visible { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(80, 55, 20, .14); outline: none; }
+#dash-root .kd-book:focus-visible { box-shadow: 0 0 0 3px var(--kd-accent); }
+#dash-root .kd-book-date { font-size: calc(15px * var(--fs)); font-weight: 700; color: var(--tds-text-3); }
+#dash-root .kd-book-title { font-size: calc(18px * var(--fs)); font-weight: 800; line-height: 1.45; letter-spacing: -0.02em; flex: 1; }
+#dash-root .kd-book-ch { font-size: calc(14px * var(--fs)); font-weight: 700; color: var(--tds-text-3); }
+#dash-root .kd-book-yt .kd-book-ch { color: #1F5BD0; }
+#dash-root .kd-book-ext .kd-book-ch { color: #087A4D; }
+/* 펼쳐 읽기 */
+html.kd-lock, html.kd-lock body { overflow: hidden; }
+#dash-root .kd-reader { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: 24px; }
+#dash-root .kd-reader[hidden] { display: none; }
+#dash-root .kd-reader-dim { position: absolute; inset: 0; background: rgba(17, 24, 39, .45); }
+#dash-root .kd-reader-sheet { position: relative; width: min(680px, 100%); max-height: min(86vh, 900px); display: flex; flex-direction: column; background: #FFFDF8; border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, .25); overflow: hidden; }
+#dash-root .kd-reader-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px 10px 22px; border-bottom: 1px solid #EFE4D2; }
+#dash-root .kd-reader-pos { font-size: calc(15px * var(--fs)); font-weight: 700; color: #8A6A44; }
+#dash-root .kd-reader-x { font: inherit; font-size: calc(16px * var(--fs)); font-weight: 700; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 0; background: #F3E8D6; color: #4A3318; cursor: pointer; }
+#dash-root .kd-reader-body { overflow: auto; padding: 22px 24px 8px; display: flex; flex-direction: column; gap: 12px; }
+#dash-root .kd-reader-meta { font-size: calc(15px * var(--fs)); font-weight: 700; color: var(--tds-text-3); }
+#dash-root .kd-reader-meta .kd-ch-yt { color: #1F5BD0; }
+#dash-root .kd-reader-meta .kd-ch-ext { color: #087A4D; }
+#dash-root .kd-reader-title { margin: 0; font-size: calc(24px * var(--fs)); font-weight: 800; line-height: 1.4; letter-spacing: -0.02em; }
+#dash-root .kd-reader-text { margin: 0; font-size: calc(18px * var(--fs)); line-height: 1.85; color: #3B2A12; }
+#dash-root .kd-reader-src { align-self: flex-start; font-size: calc(16px * var(--fs)); font-weight: 700; color: var(--kd-accent); min-height: 44px; display: inline-flex; align-items: center; text-decoration: none; }
+#dash-root .kd-reader-src[hidden] { display: none; }
+#dash-root .kd-reader-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); border-top: 1px solid #EFE4D2; }
+#dash-root .kd-reader-nav button { font: inherit; font-size: calc(17px * var(--fs)); font-weight: 700; min-height: 52px; border-radius: 14px; border: 1.5px solid var(--tds-line); background: #fff; color: var(--tds-text-1); cursor: pointer; }
+#dash-root .kd-reader-nav button:disabled { opacity: .35; cursor: default; }
+/* 맨 아래 안내 */
+#dash-root .kd-end { padding: 4px 8px 0; display: flex; flex-direction: column; gap: 6px; }
+#dash-root .kd-end p { margin: 0; font-size: calc(15px * var(--fs)); color: var(--tds-text-3); line-height: 1.65; display: flex; gap: 8px; align-items: baseline; }
+#dash-root .kd-end i { width: 12px; height: 12px; border-radius: 3px; background: #F5B400; flex: none; }
+@media (max-width: 640px) {
+  #dash-root .kd-shelf { padding: 0 12px 4px; }
+  #dash-root .kd-books { grid-template-columns: 1fr 1fr; gap: 10px; }
+  #dash-root .kd-book { min-height: 140px; padding: 12px 10px 12px 20px; }
+  #dash-root .kd-book-title { font-size: calc(17px * var(--fs)); }
+  #dash-root .kd-reader { padding: 0; align-items: flex-end; }
+  #dash-root .kd-reader-sheet { width: 100%; max-height: 92vh; border-radius: 22px 22px 0 0; }
+  #dash-root .kd-reader-body { padding: 18px 20px 8px; }
+}
+@media (max-width: 360px) { #dash-root .kd-books { grid-template-columns: 1fr; } }
+/* ===== 세련되게 다듬기 ===== */
+html, body { background: #F4F6FA; }
+#dash-root .kd { --kd-accent: #2563EB; --kd-accent-bg: #EEF3FE; --kd-shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 10px 28px -14px rgba(16, 24, 40, .14);
+  background: linear-gradient(180deg, #EAF0FB 0, #F4F6FA 280px); }
+#dash-root .kd-head h1 { letter-spacing: -0.035em; }
+/* 글자 크기: 하나로 묶인 선택 버튼 */
+#dash-root .kd-fs { gap: 12px; }
+#dash-root .kd-fs-label { font-weight: 700; color: var(--tds-text-2); }
+#dash-root .kd-fs button { border: 0; border-radius: 999px; background: transparent; min-height: 40px; padding: 0 16px; color: var(--tds-text-2); }
+#dash-root .kd-fs button[aria-pressed="true"] { background: #fff; color: var(--kd-accent); box-shadow: 0 1px 3px rgba(16, 24, 40, .15); }
+#dash-root .kd-fs-group { display: inline-flex; gap: 2px; padding: 4px; border-radius: 999px; background: #E6EBF3; }
+/* 표면: 테두리 대신 부드러운 그림자 */
+#dash-root .kd-mkt, #dash-root .kd-sec { border: 1px solid #E9EDF3; box-shadow: var(--kd-shadow); border-radius: 22px; }
+#dash-root .kd-mkt { background: #fff; }
+#dash-root .kd-mkt-head { padding-bottom: 14px; border-bottom: 1px solid var(--tds-line); }
+#dash-root .kd-sec .kd-card { background: #F8FAFC; border: 1px solid #EEF1F6; border-radius: 16px; }
+#dash-root .kd-sec > h2::before { width: 5px; border-radius: 3px; background: linear-gradient(180deg, #3B82F6, #2563EB); }
+/* 기준일 표시 */
+#dash-root [data-field="asof"]::before { content: "기준 "; }
+#dash-root .kd-signal [data-field="asof"]::before { content: none; }
+/* 코스피 등락: 연한 바탕 배지 */
+#dash-root .kd-mkt-item:first-child .kd-mkt-chg { align-self: flex-start; padding: 4px 12px; border-radius: 999px; margin: 4px 0 2px; }
+#dash-root .kd-mkt-item:first-child .kd-mkt-chg.kd-up { background: #FDECEE; }
+#dash-root .kd-mkt-item:first-child .kd-mkt-chg.kd-down { background: #EAF1FE; }
+#dash-root .kd-mkt-item:first-child .kd-mkt-val { letter-spacing: -0.04em; }
+/* 교수님 시각 박스 */
+#dash-root .kd-signal { position: relative; background: #FFF8E6; border: 1px solid #F6E3B4; border-left: 6px solid #F5B400; box-shadow: var(--kd-shadow); display: block; }
+#dash-root .kd-signal-tag { display: flex; width: fit-content; align-items: center; margin-bottom: 6px; font-size: calc(14px * var(--fs)); font-weight: 800; color: #8A5800; background: #FDEBB8; border-radius: 999px; padding: 2px 12px; }
+/* 섹션 이동: 지금 보고 있는 섹션 표시 */
+#dash-root .kd-nav { background: rgba(244, 246, 250, .92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: none; border-bottom: 1px solid transparent; }
+#dash-root .kd-nav a { background: #fff; border: 1px solid #E3E8EF; box-shadow: 0 1px 2px rgba(16, 24, 40, .05); }
+#dash-root .kd-nav a[aria-current="true"] { background: var(--tds-text-1); border-color: var(--tds-text-1); color: #fff; }
+/* 숫자 카드 */
+#dash-root .kd-big { letter-spacing: -0.03em; }
+#dash-root .kd-mean { border-top: 1px dashed #DCE2EA; }
+/* 핵심 지표 카드 */
+#dash-root .kd-core-card { background: #fff; border: 1px solid #E9EDF3; border-left: 5px solid var(--t, var(--kd-neutral)); box-shadow: 0 1px 2px rgba(16, 24, 40, .04); }
+/* 서재 다듬기 */
+#dash-root .kd-shelf { background: linear-gradient(180deg, #FCF8F1, #F8F1E5); border-color: #EFE3CF; }
+#dash-root .kd-book { background: linear-gradient(180deg, #FFFFFF, #FDFBF7); }
+#dash-root .kd-book-title { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+#dash-root .kd-book::after { content: "펼쳐 보기 →"; font-size: calc(14px * var(--fs)); font-weight: 700; color: var(--tds-text-3); }
+#dash-root .kd-book-ch { order: 3; }
+#dash-root .kd-book::after { order: 4; }
+#dash-root .kd-book-ch { font-size: calc(13px * var(--fs)); }
+@media (max-width: 640px) {
+  #dash-root .kd-book::after { content: none; }
+  #dash-root .kd-fs { gap: 8px; }
+  #dash-root .kd-fs button { padding: 0 12px; }
+}
+#dash-root .kd-mkt-chg, #dash-root .kd-mkt .kd-meta { white-space: nowrap; }
+#dash-root .kd-tiles .kd-card .kd-big { align-self: flex-start; }
+@media (min-width: 1000px) { #dash-root .kd-mkt-grid { grid-template-columns: 1.35fr repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 641px) and (max-width: 999px) { #dash-root .kd .kd-mkt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } #dash-root .kd .kd-mkt-item:first-child { grid-column: 1 / -1; } #dash-root .kd .kd-mkt-chg, #dash-root .kd .kd-mkt .kd-meta { white-space: normal; } }
+@media (max-width: 640px) { #dash-root .kd-mkt .kd-meta { white-space: normal; } #dash-root .kd-mkt-item:not(:first-child) .kd-mkt-chg { white-space: nowrap; } }
+#dash-root .kd-more { font: inherit; font-size: calc(17px * var(--fs)); font-weight: 700; width: 100%; min-height: 52px; margin-top: 8px; border-radius: 14px; border: 1.5px solid var(--kd-accent); background: var(--kd-accent-bg); color: var(--kd-accent); cursor: pointer; }
+/* 지표 사전 */
+#dash-root .kd-cx-legend { font-size: calc(15px * var(--fs)); color: var(--tds-text-2); }
+#dash-root .kd-dot { width: 10px; height: 10px; }
+#dash-root .kd-cx-title { font-size: calc(20px * var(--fs)); }
+#dash-root .kd-core-card { border: 1px solid var(--tds-line); border-left: 5px solid var(--t, var(--kd-neutral)); }
+#dash-root .kd-core-card:hover { background: var(--kd-accent-bg); }
+#dash-root .kd-core-sec { font-size: calc(14px * var(--fs)); color: var(--tds-text-3); }
+#dash-root .kd-core-name { font-size: calc(17px * var(--fs)); font-weight: 700; }
+#dash-root .kd-core-val { font-size: calc(22px * var(--fs)); }
+#dash-root .kd-badge { font-size: calc(15px * var(--fs)); font-weight: 700; padding: 3px 12px 3px 10px; }
+#dash-root .kd-tools input { font-size: calc(17px * var(--fs)); min-height: 48px; border: 1.5px solid var(--tds-line); }
+#dash-root .kd-chip { font-size: calc(16px * var(--fs)); min-height: 44px; padding: 0 16px; border: 1.5px solid var(--tds-line); }
+#dash-root .kd-chip[aria-pressed="true"] { background: var(--kd-accent); border-color: var(--kd-accent); color: #fff; }
+#dash-root .kd-cx-sec { top: 64px; }
+#dash-root .kd-cx-sec-name { font-size: calc(20px * var(--fs)); }
+#dash-root .kd-cx-sec-desc { font-size: calc(15px * var(--fs)); }
+#dash-root .kd-cx-sum { padding: 18px 0; }
+#dash-root .kd-cx-top::after { font-size: calc(24px * var(--fs)); font-weight: 700; color: var(--kd-accent); }
+#dash-root .kd-stars { font-size: calc(15px * var(--fs)); }
+#dash-root .kd-cat-name { font-size: calc(18px * var(--fs)); font-weight: 700; }
+#dash-root .kd-cx-val { font-size: calc(15px * var(--fs)); }
+#dash-root .kd-cat-brief { font-size: calc(17px * var(--fs)); line-height: 1.6; }
+#dash-root .kd-cx-rule { font-size: calc(16px * var(--fs)); }
+#dash-root .kd-cx-impact { font-size: calc(16px * var(--fs)); line-height: 1.65; }
+#dash-root .kd-cx-impact b { font-size: calc(14px * var(--fs)); }
+#dash-root .kd-cat-fact { font-size: calc(14px * var(--fs)); color: var(--tds-text-3); }
+#dash-root .kd-cat-k { font-size: calc(15px * var(--fs)); color: var(--tds-text-3); font-weight: 700; }
+#dash-root .kd-cat-v { font-size: calc(17px * var(--fs)); line-height: 1.75; }
+#dash-root .kd-cx-watch-chip { font-size: calc(15px * var(--fs)); min-height: 44px; padding: 0 14px; }
+#dash-root .kd-cx-link { font-size: calc(15px * var(--fs)); min-height: 44px; display: inline-flex; align-items: center; padding: 0 16px; border: 1.5px solid var(--tds-line); }
+#dash-root .kd-cx-auto { font-size: calc(14px * var(--fs)); }
+
+/* 휴대폰 */
+@media (max-width: 640px) {
+  #dash-root .kd { padding: 20px 12px 40px; gap: 14px; }
+  #dash-root .kd-head h1 { font-size: calc(26px * var(--fs)); }
+  #dash-root .kd-mkt, #dash-root .kd-sec { padding: 20px 16px; }
+  /* 오늘의 시장: 한 줄에 한 항목, 이름 왼쪽 · 숫자 오른쪽 */
+  #dash-root .kd-mkt-grid { grid-template-columns: 1fr; gap: 10px; }
+  #dash-root .kd-mkt-item:first-child { padding: 4px 4px 18px; }
+  #dash-root .kd-mkt-item:first-child .kd-mkt-val { font-size: calc(40px * var(--fs)); }
+  #dash-root .kd-mkt-item:not(:first-child) { display: grid; grid-template-columns: 1fr auto; column-gap: 12px; row-gap: 4px; align-items: baseline; background: var(--tds-sub); border: 1px solid var(--tds-line); border-radius: 14px; padding: 14px 16px; }
+  #dash-root .kd-mkt-item:not(:first-child) .kd-mkt-label { grid-column: 1; grid-row: 1; }
+  #dash-root .kd-mkt-item:not(:first-child) .kd-mkt-val { grid-column: 2; grid-row: 1; text-align: right; font-size: calc(22px * var(--fs)); }
+  #dash-root .kd-mkt-item:not(:first-child) .kd-meta { grid-column: 1; grid-row: 2; }
+  #dash-root .kd-mkt-item:not(:first-child) .kd-mkt-chg { grid-column: 2; grid-row: 2; text-align: right; font-size: calc(16px * var(--fs)); }
+  #dash-root .kd-mkt-item:not(:first-child) .kd-mkt-note { grid-column: 1 / -1; margin-top: 4px; }
+  #dash-root .kd-signal { padding: 18px 18px; font-size: calc(17px * var(--fs)); }
+  /* 지표 카드: 위에서 아래로 한 흐름 */
+  #dash-root .kd-tiles .kd-card { display: flex; flex-direction: column; gap: 4px; }
+  #dash-root .kd-tiles .kd-card .kd-big { text-align: left; font-size: calc(30px * var(--fs)); }
+  #dash-root .kd-sec > h2 { font-size: calc(22px * var(--fs)); }
+  #dash-root .kd-cx-core { grid-template-columns: 1fr; }
+  #dash-root .kd-core-card { display: grid; grid-template-columns: 1fr auto; column-gap: 12px; row-gap: 6px; align-items: center; padding: 14px 16px; }
+  #dash-root .kd-core-card .kd-core-sec { grid-column: 1; grid-row: 1; }
+  #dash-root .kd-core-card .kd-core-name { grid-column: 1; grid-row: 2; }
+  #dash-root .kd-core-card .kd-core-val { grid-column: 2; grid-row: 1 / span 2; text-align: right; }
+  #dash-root .kd-core-card .kd-badge { grid-column: 1 / -1; }
+  #dash-root .kd-chart.kd-tall { min-height: 0; }
+  #dash-root .kd-cat-body { padding-left: 12px; margin-left: 0; }
+  #dash-root .kd-tools input { flex-basis: 100%; }
+}
+@media (max-width: 640px) {
+  #dash-root .kd .kd-mkt-item:not(:first-child) { display: flex; flex-direction: column; gap: 2px; }
+  #dash-root .kd .kd-mkt-item:not(:first-child) .kd-mkt-val { text-align: left; font-size: calc(26px * var(--fs)); }
+  #dash-root .kd .kd-mkt-item:not(:first-child) .kd-mkt-chg { text-align: left; white-space: normal; }
+  #dash-root .kd .kd-mkt .kd-meta { white-space: normal; }
+}
+/* 아주 크게에서도 넘치지 않도록: 칸 너비를 글자 크기에 맞춰 늘리고, 긴 글은 줄바꿈 */
+@media (min-width: 641px) {
+  #dash-root .kd .kd-mkt-grid { grid-template-columns: repeat(auto-fill, minmax(calc(190px * var(--fs)), 1fr)); }
+  #dash-root .kd .kd-mkt-item:first-child { grid-column: auto; }
+}
+#dash-root .kd .kd-mkt-chg, #dash-root .kd .kd-mkt .kd-meta { white-space: normal; }
+#dash-root .kd .kd-mkt-item { min-width: 0; }
+#dash-root .kd .kd-mkt-val { white-space: nowrap; }
+#dash-root .kd .kd-cx-core { grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(230px * var(--fs))), 1fr)); }
+#dash-root .kd .kd-badge { white-space: normal; max-width: 100%; }
+#dash-root .kd .kd-core-card { min-width: 0; overflow-wrap: break-word; }
+#dash-root .kd .kd-fs-group { flex-wrap: wrap; }
+#dash-root .kd .kd-head, #dash-root .kd .kd-head h1 { min-width: 0; overflow-wrap: break-word; }
+@media (max-width: 640px) { #dash-root .kd .kd-cx-core { grid-template-columns: 1fr; } }
 </style>
 
 <div class="kd">
   <header class="kd-head" id="top">
     <h1>김영익 교수님 데이터 보드</h1>
-    <p>교수님이 판단 근거로 쓰는 지표와 최근 발언을 모았어요. 숫자마다 기준일과 출처를 함께 적었어요.</p>
-    <div class="kd-legend"><i></i>노란 글씨는 교수님의 해석과 전망이에요</div>
+    <div class="kd-fs" role="group" aria-label="글자 크기"><span class="kd-fs-label">글자 크기</span>
+      <span class="kd-fs-group">
+      <button type="button" data-fs="1" aria-pressed="true">보통</button>
+      <button type="button" data-fs="1.15" aria-pressed="false">크게</button>
+      <button type="button" data-fs="1.3" aria-pressed="false">아주 크게</button>
+      </span>
+    </div>
     <section class="kd-mkt" aria-label="오늘의 시장">
       <div class="kd-mkt-head">오늘의 시장 <span class="kd-meta kd-static-note">평일 장 마감 후 자동 갱신</span><span class="kd-live" hidden><i></i>실시간 갱신 중 <span class="kd-live-time"></span></span></div>
       <div class="kd-mkt-grid">
@@ -437,7 +694,8 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
       </div>
     </section>
     <div class="kd-signal">
-      지금은 선행지수 순환변동치가 <b data-draw="v" data-source="latest" data-field="display" data-where="id=cli">—</b> (<span data-draw="v" data-source="latest" data-field="asof" data-where="id=cli">—</span>)로 내려가는 국면이에요. 교수님은 주식 비중을 <b data-draw="v" data-source="latest" data-field="display" data-where="id=weight">—</b> 안팎으로 낮추라고 해요. 선행지수가 다시 오르면 비중을 늘려요.
+      <span class="kd-signal-tag">교수님 시각</span>
+      선행지수 순환변동치는 <b data-draw="v" data-source="latest" data-field="display" data-where="id=cli">—</b> (<span data-draw="v" data-source="latest" data-field="asof" data-where="id=cli">—</span>)로 내려가는 흐름이에요. 교수님은 이런 국면에서 주식 비중을 <b data-draw="v" data-source="latest" data-field="display" data-where="id=weight">—</b> 안팎으로 조절하는 방안을, 선행지수가 다시 오르면 비중을 늘리는 방안을 제시해요.
     </div>
   </header>
 
@@ -445,13 +703,13 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
     <a href="#sec-temp">경기 레이더</a>
     <a href="#sec-value">코스피 적정성</a>
     <a href="#sec-macro">환율·금리·미국</a>
-    <a href="#sec-voices">교수님 한마디</a>
     <a href="#sec-catalog">지표 사전</a>
+    <a href="#sec-voices">교수님 한마디</a>
   </nav>
 
   <section class="kd-sec" id="sec-temp">
     <h2><span class="kd-num">01</span>경기 레이더</h2>
-    <p class="kd-lead">교수님 판단의 출발점이에요. 선행지수가 오르면 주식을 늘리고, 꺾이면 줄여요.</p>
+    <p class="kd-lead">교수님이 주식 비중을 판단할 때 가장 먼저 보는 지표들이에요.</p>
     <div class="kd-tiles">
       <div class="kd-card">
         <h3>선행지수 순환변동치</h3>
@@ -480,12 +738,19 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
       <p class="kd-note">지금 권고 비중과, 선행지수가 오를 때의 비중(세로선)을 비교해요.</p>
       <div class="kd-chart" style="min-height:5rem" data-draw="weightbar" data-source="latest"></div>
     </div>
-    <p class="kd-foot">뉴스심리지수(3개월 평균)는 선행지수보다 약 다섯 달 먼저 움직이는 보조 신호예요. 교수님은 7월 영상에서 3월 이후 하락 중이라고 했어요.</p>
+    <div class="kd-card kd-aux">
+      <div class="kd-aux-top"><span class="kd-aux-tag">보조 신호</span><h3>뉴스심리지수</h3></div>
+      <p class="kd-note">한국은행이 경제 기사 속 긍정·부정 표현으로 만든 심리 지표예요. 교수님은 선행지수보다 몇 달 먼저 방향을 바꾸는 신호로 보고, 내년에 이 지수가 반등하면 경기·주가 회복 신호로 볼 수 있다고 설명했어요.</p>
+      <div class="kd-aux-links">
+        <a class="kd-aux-btn" href="https://ecos.bok.or.kr" target="_blank" rel="noopener">한국은행에서 최신 수치 보기 ↗</a>
+        <button type="button" class="kd-aux-btn kd-aux-go" data-go="뉴스심리지수 (3개월 이동평균)">지표 사전에서 자세히 →</button>
+      </div>
+    </div>
   </section>
 
   <section class="kd-sec" id="sec-value">
     <h2><span class="kd-num">02</span>코스피 적정성</h2>
-    <p class="kd-lead">경제 규모·통화량으로 보면 비싸고, 수출·추세로 보면 싼 구간이에요(10월 영상 기준).</p>
+    <p class="kd-lead">교수님은 경제 규모·통화량 기준으로는 높은 편, 수출·추세 기준으로는 낮은 편이라고 설명해요(10월 영상 기준).</p>
     <div class="kd-grid">
       <div class="kd-card">
         <h3>중장기: 장기 평균 대비 얼마나 높은가</h3>
@@ -532,7 +797,7 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
 
   <section class="kd-sec" id="sec-macro">
     <h2><span class="kd-num">03</span>환율 · 금리 · 미국</h2>
-    <p class="kd-lead">교수님은 원화가 강해지고(환율 하락), 내년 상반기 미국 경기가 둔화될 거라고 봐요.</p>
+    <p class="kd-lead">교수님이 원화 흐름과 미국 경기를 점검할 때 함께 보는 지표들이에요.</p>
     <div class="kd-tiles">
       <div class="kd-card">
         <h3>원·달러 환율</h3>
@@ -542,18 +807,11 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
         <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=usdkrw">—</p>
       </div>
       <div class="kd-card">
-        <h3>환율 고점 (교수님 언급)</h3>
-        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=usdkrw_hi">—</div>
-        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=usdkrw_hi">—</div>
-        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=usdkrw_hi">—</p>
-        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=usdkrw_hi">—</p>
-      </div>
-      <div class="kd-card">
-        <h3>경상수지 흑자</h3>
-        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=ca">—</div>
-        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=ca">—</div>
-        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=ca">—</p>
-        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=ca">—</p>
+        <h3>미국채 10년</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=ust10y">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=ust10y">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=ust10y">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=ust10y">—</p>
       </div>
       <div class="kd-card">
         <h3>국고채 3년</h3>
@@ -563,18 +821,11 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
         <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=ktb3y">—</p>
       </div>
       <div class="kd-card">
-        <h3>미국채 10년</h3>
-        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=ust10y">—</div>
-        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=ust10y">—</div>
-        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=ust10y">—</p>
-        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=ust10y">—</p>
-      </div>
-      <div class="kd-card">
-        <h3>국제유가</h3>
-        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=oil">—</div>
-        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=oil">—</div>
-        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=oil">—</p>
-        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=oil">—</p>
+        <h3>경상수지 흑자</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=ca">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=ca">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=ca">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=ca">—</p>
       </div>
       <div class="kd-card">
         <h3>미국 비농업 고용</h3>
@@ -583,24 +834,29 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
         <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=nfp">—</p>
         <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=nfp">—</p>
       </div>
+      <div class="kd-card">
+        <h3>환율 고점 (교수님 언급)</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=usdkrw_hi">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=usdkrw_hi">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=usdkrw_hi">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=usdkrw_hi">—</p>
+      </div>
+      <div class="kd-card">
+        <h3>국제유가</h3>
+        <div class="kd-big" data-draw="v" data-source="latest" data-field="display" data-where="id=oil">—</div>
+        <div class="kd-meta" data-draw="v" data-source="latest" data-field="asof" data-where="id=oil">—</div>
+        <p class="kd-note" data-draw="v" data-source="latest" data-field="note" data-where="id=oil">—</p>
+        <p class="kd-mean" data-draw="v" data-source="latest" data-field="meaning" data-where="id=oil">—</p>
+      </div>
     </div>
-    <p class="kd-foot">원화 강세 근거 다섯 가지(9월 출연): 달러인덱스 하락, 위안화 강세 유도, 엔화 저평가, 한미 실질금리차, 대규모 경상흑자. 미국은 실업률 12개월 평균, 개인소비, 주식 신용융자 잔액도 함께 봐요.</p>
-  </section>
-
-  <section class="kd-sec" id="sec-voices">
-    <h2><span class="kd-num">04</span>교수님 한마디</h2>
-    <p class="kd-lead">유튜브·방송·인터뷰에서 밝힌 전망을 최신순으로 모았어요. 요약은 영상과 보도를 바탕으로 다시 썼어요.</p>
-    <div class="kd-card">
-      <div class="kd-voices" data-draw="voices" data-source="voices"></div>
-    </div>
+    <p class="kd-foot">교수님이 9월 방송에서 원화 흐름의 근거로 든 요인: 달러인덱스, 위안화, 엔화, 한미 실질금리차, 경상수지. 미국은 실업률 12개월 평균, 개인소비, 주식 신용융자 잔액도 함께 봐요.</p>
   </section>
 
   <section class="kd-sec" id="sec-catalog">
-    <h2><span class="kd-num">05</span>지표 사전</h2>
-    <p class="kd-lead">교수님이 쓰는 지표를 분야별로 정리했어요. 중요도(★)와 교수님의 현재 판단을 함께 볼 수 있어요.</p>
+    <h2><span class="kd-num">04</span>지표 사전</h2>
+    <p class="kd-lead">교수님이 쓰는 지표를 분야별로 정리했어요. 별(★)이 많을수록 자주 보는 지표예요.</p>
     <div class="kd-cx-legend">
       <span><i class="kd-dot kd-t-bad"></i>경계</span><span><i class="kd-dot kd-t-warn"></i>주의</span><span><i class="kd-dot kd-t-ok"></i>기회</span><span><i class="kd-dot kd-t-neutral"></i>중립</span>
-      <span class="kd-cx-legend-note">색 배지는 교수님의 현재 판단이에요</span>
     </div>
     <div class="kd-cx-head">
       <h3 class="kd-cx-title">★ 교수님 핵심 지표</h3>
@@ -622,8 +878,37 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
       <p class="kd-note">지표를 누르면 뜻, 읽는 법, 원본 데이터 링크가 펼쳐져요.</p>
       <div class="kd-cat" data-draw="catalog" data-source="catalog latest"></div>
     </div>
-    <p class="kd-foot">다음 발표일은 기관의 통상 일정 기준이라 하루이틀 다를 수 있어요. 이 보드는 공개 발언과 발표 자료를 정리한 학습 자료이며, 투자 추천이 아니에요.</p>
+    <p class="kd-foot">다음 발표일은 기관의 통상 일정 기준이라 하루이틀 다를 수 있어요.</p>
   </section>
+
+  <section class="kd-sec" id="sec-voices">
+    <h2><span class="kd-num">05</span>교수님 한마디</h2>
+    <p class="kd-lead">책을 누르면 내용을 펼쳐 볼 수 있어요.</p>
+    <div class="kd-lib" data-draw="voices" data-source="voices"></div>
+  </section>
+  <footer class="kd-end">
+    <p><i></i>노란 글씨는 교수님의 해석과 전망이에요. 숫자마다 기준일과 출처를 함께 적었어요.</p>
+    <p>이 보드는 공개 발언과 발표 자료를 정리한 학습 자료이며, 투자 추천이 아니에요.</p>
+  </footer>
+  <div class="kd-reader" hidden>
+    <div class="kd-reader-dim" data-close></div>
+    <article class="kd-reader-sheet" role="dialog" aria-modal="true" aria-labelledby="kd-reader-title">
+      <div class="kd-reader-bar">
+        <span class="kd-reader-pos"></span>
+        <button type="button" class="kd-reader-x" data-close aria-label="닫기">닫기 ✕</button>
+      </div>
+      <div class="kd-reader-body">
+        <div class="kd-reader-meta"></div>
+        <h3 id="kd-reader-title" class="kd-reader-title"></h3>
+        <p class="kd-reader-text"></p>
+        <a class="kd-reader-src" target="_blank" rel="noopener">원문 보기 ↗</a>
+      </div>
+      <div class="kd-reader-nav">
+        <button type="button" class="kd-reader-prev">← 더 최근</button>
+        <button type="button" class="kd-reader-next">이전 →</button>
+      </div>
+    </article>
+  </div>
 </div>
 
 
@@ -633,6 +918,7 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
   const rowOf = (id) => { const d = dash.data('latest'); return d.status === 'ok' ? d.data.find((r) => r.id === id) : null; };
   const whereId = (el) => { const m = (el.dataset.where || '').match(/^id=(.+)$/); return m ? decodeURIComponent(m[1]) : null; };
   window.kdRow = rowOf;
+  const mk = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt != null) n.textContent = txt; return n; };
 
   const isView = (r) => /김영익|머니올라|출연/.test(r && r.source || '');
   dash.draw('v', (el) => {
@@ -677,21 +963,29 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
     const n = svg.append('text').attr('class', cls || '').style('font-size', 'var(--cds-font-size-caption)').text(text);
     const w = n.node().getComputedTextLength(); n.remove(); return w;
   }
+  /* 글자 크기가 바뀌어도 잘리지 않도록 실제 글자 높이를 잽니다 */
+  function textH(svg) {
+    const n = svg.append('text').style('font-size', 'var(--cds-font-size-caption)').text('가0');
+    const fs = parseFloat(getComputedStyle(n.node()).fontSize) || 15; n.remove(); return Math.ceil(fs);
+  }
 
   dash.draw('weightbar', (el) => {
     el.replaceChildren();
     const r = rowOf('weight');
     if (!r) { el.textContent = '—'; return; }
-    const W = el.clientWidth || 320, H = 64;
-    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+    const W = el.clientWidth || 320;
+    const svg = d3.select(el).append('svg').attr('width', '100%');
+    const th = textH(svg), barY = th + 10, barH = 18, H = barY + barH + th + 14;
+    svg.attr('viewBox', `0 0 ${W} ${H}`);
     const x = d3.scaleLinear([0, 100], [0, W]);
-    svg.append('rect').attr('x', 0).attr('y', 18).attr('width', W).attr('height', 16).attr('rx', 4).style('fill', 'var(--cds-chart-grid)');
-    svg.append('rect').attr('x', 0).attr('y', 18).attr('width', x(r.value)).attr('height', 16).attr('rx', 4).style('fill', 'var(--cds-chart-status-critical)');
-    svg.append('line').attr('x1', x(r.avg)).attr('x2', x(r.avg)).attr('y1', 12).attr('y2', 40).style('stroke', 'var(--cds-chart-reference)').style('stroke-width', 2);
-    svg.append('text').attr('x', Math.min(x(r.value) + 6, W - 120)).attr('y', 58).style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg)').text(`현재 ${r.value}%`);
+    svg.append('rect').attr('x', 0).attr('y', barY).attr('width', W).attr('height', barH).attr('rx', 4).style('fill', 'var(--cds-chart-grid)');
+    svg.append('rect').attr('x', 0).attr('y', barY).attr('width', x(r.value)).attr('height', barH).attr('rx', 4).style('fill', 'var(--cds-chart-status-critical)');
+    svg.append('line').attr('x1', x(r.avg)).attr('x2', x(r.avg)).attr('y1', barY - 6).attr('y2', barY + barH + 6).style('stroke', 'var(--cds-chart-reference)').style('stroke-width', 2);
+    const cur = `현재 ${r.value}%`, cw = measure(svg, cur);
+    svg.append('text').attr('x', Math.max(0, Math.min(x(r.value) - cw, W - cw))).attr('y', barY + barH + th + 6).style('font-size', 'var(--cds-font-size-caption)').style('font-weight', 700).style('fill', 'var(--color-fg)').text(cur);
     const lbl = `상승 국면 ${r.avg}%`;
     const lw = measure(svg, lbl);
-    svg.append('text').attr('x', Math.max(0, Math.min(x(r.avg) - lw / 2, W - lw))).attr('y', 9).style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg-muted)').text(lbl);
+    svg.append('text').attr('x', Math.max(0, Math.min(x(r.avg) - lw / 2, W - lw))).attr('y', th).style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg-muted)').text(lbl);
   });
 
   dash.draw('bullet', (el) => {
@@ -699,19 +993,21 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
     const rows = ['buffett', 'mcap_m2'].map(rowOf).filter(Boolean);
     if (!rows.length) return;
     const tt = tip(el);
-    const W = el.clientWidth || 320, rowH = 64, H = rows.length * rowH + 8;
-    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+    const W = el.clientWidth || 320;
+    const svg = d3.select(el).append('svg').attr('width', '100%');
+    const th = textH(svg), rowH = th + 54, H = rows.length * rowH + 8;
+    svg.attr('viewBox', `0 0 ${W} ${H}`);
     const max = d3.max(rows, (r) => Math.max(r.value, r.avg)) * 1.12;
     const endW = measure(svg, '146%') + 8;
     const x = d3.scaleLinear([0, max], [0, W - endW]);
     rows.forEach((r, i) => {
       const y0 = i * rowH;
       const name = r.id === 'buffett' ? '버핏지수' : '시총 ÷ 구 M2';
-      svg.append('text').attr('x', 0).attr('y', y0 + 14).style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg-muted)').text(name);
-      svg.append('rect').attr('x', 0).attr('y', y0 + 22).attr('width', W - endW).attr('height', 22).attr('rx', 4).style('fill', 'var(--cds-chart-grid)');
-      const bar = svg.append('rect').attr('x', 0).attr('y', y0 + 22).attr('width', x(r.value)).attr('height', 22).attr('rx', 4).style('fill', r.value > r.avg ? 'var(--cds-chart-status-critical)' : dash.colors[0]);
-      svg.append('line').attr('x1', x(r.avg)).attr('x2', x(r.avg)).attr('y1', y0 + 17).attr('y2', y0 + 49).style('stroke', 'var(--color-fg)').style('stroke-width', 2);
-      svg.append('text').attr('x', x(r.value) + 6).attr('y', y0 + 38).style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg)').style('font-variant-numeric', 'tabular-nums').text(r.display);
+      svg.append('text').attr('x', 0).attr('y', y0 + th).style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg-muted)').text(name);
+      svg.append('rect').attr('x', 0).attr('y', y0 + th + 12).attr('width', W - endW).attr('height', 22).attr('rx', 4).style('fill', 'var(--cds-chart-grid)');
+      const bar = svg.append('rect').attr('x', 0).attr('y', y0 + th + 12).attr('width', x(r.value)).attr('height', 22).attr('rx', 4).style('fill', r.value > r.avg ? 'var(--cds-chart-status-critical)' : dash.colors[0]);
+      svg.append('line').attr('x1', x(r.avg)).attr('x2', x(r.avg)).attr('y1', y0 + th + 8).attr('y2', y0 + th + 38).style('stroke', 'var(--color-fg)').style('stroke-width', 2);
+      svg.append('text').attr('x', x(r.value) + 6).attr('y', y0 + th + 23 + th * 0.35).style('font-size', 'var(--cds-font-size-caption)').style('fill', 'var(--color-fg)').style('font-variant-numeric', 'tabular-nums').text(r.display);
       bar.on('mousemove', (ev) => tt.show(ev, name, `현재 ${r.display} · 평균 ${r.avg}% (${r.asof})`)).on('mouseleave', () => tt.hide());
     });
   });
@@ -742,24 +1038,100 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
     });
   });
 
+  /* 교수님 한마디: 달마다 한 칸씩 꽂힌 서재, 책을 누르면 펼쳐 읽기 */
+  let books = [];
+  const reader = document.querySelector('#dash-root .kd-reader');
+  const rd = (c) => reader.querySelector(c);
+  let cur_i = 0, lastFocus = null;
+  const kind = (ch) => /경제스쿨/.test(ch || '') ? 'yt' : 'ext';
+  const md = (d) => { const p = String(d).split('-'); return p[2] ? Number(p[1]) + '월 ' + Number(p[2]) + '일' : Number(p[1]) + '월'; };
+  function openBook(i) {
+    cur_i = i; const v = books[i];
+    rd('.kd-reader-meta').replaceChildren(mk('span', 'kd-book-ch kd-ch-' + kind(v.channel), v.channel), document.createTextNode(' ' + String(v.date).replace(/-/g, '. ')));
+    rd('.kd-reader-title').textContent = v.title;
+    rd('.kd-reader-text').textContent = v.summary;
+    const src = rd('.kd-reader-src');
+    if (/^https:\/\//.test(v.url || '')) { src.href = v.url; src.hidden = false; } else src.hidden = true;
+    rd('.kd-reader-pos').textContent = (i + 1) + ' / ' + books.length;
+    rd('.kd-reader-prev').disabled = i === 0;
+    rd('.kd-reader-next').disabled = i === books.length - 1;
+    if (reader.hidden) { lastFocus = document.activeElement; reader.hidden = false; document.documentElement.classList.add('kd-lock'); }
+    rd('.kd-reader-body').scrollTop = 0;
+    rd('.kd-reader-x').focus();
+  }
+  function closeBook() { reader.hidden = true; document.documentElement.classList.remove('kd-lock'); if (lastFocus) lastFocus.focus(); }
+  reader.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', closeBook));
+  rd('.kd-reader-prev').addEventListener('click', () => cur_i > 0 && openBook(cur_i - 1));
+  rd('.kd-reader-next').addEventListener('click', () => cur_i < books.length - 1 && openBook(cur_i + 1));
+  document.addEventListener('keydown', (e) => {
+    if (reader.hidden) return;
+    if (e.key === 'Escape') closeBook();
+    else if (e.key === 'ArrowLeft') rd('.kd-reader-prev').click();
+    else if (e.key === 'ArrowRight') rd('.kd-reader-next').click();
+  });
+  const openShelves = new Set();
   dash.draw('voices', (el) => {
     el.replaceChildren();
     const d = dash.data('voices');
     if (d.status !== 'ok') { el.textContent = '—'; return; }
-    [...d.data].sort((a, b) => String(b.date).localeCompare(String(a.date))).forEach((v) => {
-      const item = document.createElement('article'); item.className = 'kd-voice';
-      const dt = document.createElement('div'); dt.className = 'kd-vdate'; dt.textContent = `${v.date} · ${v.channel}`;
-      const ti = document.createElement('div'); ti.className = 'kd-vtitle'; ti.textContent = v.title;
-      const su = document.createElement('p'); su.className = 'kd-vsum'; su.textContent = v.summary;
-      item.append(dt, ti, su);
-      if (/^https:\/\//.test(v.url || '')) { const a = document.createElement('a'); a.href = v.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = '원문 보기 ↗'; item.append(a); }
-      el.append(item);
+    books = [...d.data].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+    const months = [];
+    books.forEach((v, i) => { const m = String(v.date).slice(0, 7); let g = months.find((x) => x.m === m); if (!g) { g = { m, list: [] }; months.push(g); } g.list.push(i); });
+    if (!openShelves.size && months[0]) openShelves.add(months[0].m);
+    months.forEach((g) => {
+      const [y, mo] = g.m.split('-');
+      const shelf = mk('details', 'kd-shelf'); shelf.open = openShelves.has(g.m);
+      shelf.addEventListener('toggle', () => { shelf.open ? openShelves.add(g.m) : openShelves.delete(g.m); });
+      const sum = mk('summary', 'kd-shelf-head');
+      sum.append(mk('span', 'kd-shelf-name', y + '년 ' + Number(mo) + '월'), mk('span', 'kd-shelf-count', g.list.length + '권'));
+      shelf.append(sum);
+      const row = mk('div', 'kd-books');
+      g.list.forEach((i) => {
+        const v = books[i];
+        const bk = mk('button', 'kd-book kd-book-' + kind(v.channel)); bk.type = 'button';
+        bk.append(mk('span', 'kd-book-date', md(v.date)), mk('span', 'kd-book-title', v.title), mk('span', 'kd-book-ch', v.channel));
+        bk.addEventListener('click', () => openBook(i));
+        row.append(bk);
+      });
+      shelf.append(row, mk('div', 'kd-shelf-board'));
+      el.append(shelf);
     });
   });
 
+
+  /* 섹션 이동: 지금 보고 있는 섹션을 표시 */
+  (() => {
+    const nav = document.querySelector('#dash-root .kd-nav');
+    const links = [...nav.querySelectorAll('a[href^="#sec-"]')];
+    const secs = links.map((a) => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const mark = (id) => links.forEach((a) => {
+      const on = a.getAttribute('href') === '#' + id;
+      a.setAttribute('aria-current', String(on));
+      if (on) nav.scrollTo({ left: Math.max(0, a.offsetLeft - 16), behavior: 'smooth' });
+    });
+    let last = '';
+    const pick = () => {
+      const y = 90; let cur = '';
+      secs.forEach((s) => { if (s.getBoundingClientRect().top <= y) cur = s.id; });
+      if (cur !== last) { last = cur; mark(cur); }
+    };
+    window.addEventListener('scroll', pick, { passive: true });
+    pick();
+  })();
+  /* 글자 크기: 보통 · 크게 · 아주 크게 (이 기기에서만 기억) */
+  const kdRoot = document.querySelector('#dash-root .kd');
+  const fsBtns = document.querySelectorAll('#dash-root .kd-fs button');
+  const setFs = (v, save) => {
+    kdRoot.style.setProperty('--fs', v);
+    fsBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.fs === v)));
+    if (save) { try { localStorage.setItem('kd-fs', v); } catch (e) {} }
+    if (window.__kdDataDone) dash._runAll();
+  };
+  fsBtns.forEach((b) => b.addEventListener('click', () => setFs(b.dataset.fs, true)));
+  try { const v = localStorage.getItem('kd-fs'); if (v && [...fsBtns].some((b) => b.dataset.fs === v)) setFs(v, false); } catch (e) {}
+
   const SEC_ORDER = ['경기','밸류','수출','금리','환율','미국'];
   const SEC_DESC = {'경기':'경기가 어디로 가는지','밸류':'코스피가 비싼지 싼지','수출':'한국 경기의 실물 엔진','금리':'돈의 값과 정책 방향','환율':'원화의 힘','미국':'세계 시장의 큰 흐름'};
-  const mk = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt != null) n.textContent = txt; return n; };
   const cur = (r, lat) => (r.ref && lat.status === 'ok' ? lat.data.find((y) => y.id === r.ref) : null);
   const slug = (s) => 'ind-' + Math.abs(Array.from(s).reduce((h, c) => ((h << 5) - h + c.charCodeAt(0)) | 0, 0)).toString(36);
   const badge = (r) => { const tone = r.tone || 'neutral'; const b = mk('span', 'kd-badge kd-t-' + tone); b.append(mk('i', 'kd-dot kd-t-' + tone), document.createTextNode(r.status || '')); return b; };
@@ -832,6 +1204,7 @@ html,body{margin:0;background:#F2F4F6;color:#191F28}
     });
     if (!rows.length) box.append(mk('p', 'kd-note', '조건에 맞는 지표가 없어요.'));
   });
+  document.querySelectorAll('#dash-root .kd-aux-go').forEach((b) => b.addEventListener('click', () => goTo(b.dataset.go)));
   document.querySelectorAll('#dash-root .kd-search').forEach((inp) => inp.addEventListener('input', () => { state.q = inp.value; dash.draw('catalog'); }));
   document.querySelectorAll('#dash-root .kd-chip').forEach((b) => b.addEventListener('click', () => {
     if (b.dataset.core) { state.core = !state.core; b.setAttribute('aria-pressed', String(state.core)); dash.draw('catalog'); return; }
